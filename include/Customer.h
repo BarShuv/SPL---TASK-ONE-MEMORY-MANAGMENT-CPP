@@ -26,6 +26,7 @@ class Customer {
     private:
         const int id;
         const string name;
+        const string bar;
         const int locationDistance;
         const int maxOrders;
         vector<int> ordersId;
