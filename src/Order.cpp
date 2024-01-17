@@ -1,9 +1,9 @@
 #include "../include/Order.h"
-#include <iostream>
+#include <sstream>
 
-Order::Order(int orderId, int orderCustomerId, int orderDistance)
-    : id(orderId), customerId(orderCustomerId), distance(orderDistance), status(OrderStatus::PENDING), collectorId(NO_VOLUNTEER), driverId(NO_VOLUNTEER) {
-}
+Order::Order(int id, int customerId, int distance)
+    : id(id), customerId(customerId), distance(distance), status(OrderStatus::PENDING),
+      collectorId(NO_VOLUNTEER), driverId(NO_VOLUNTEER) {}
 
 int Order::getId() const {
     return id;
@@ -13,16 +13,16 @@ int Order::getCustomerId() const {
     return customerId;
 }
 
-void Order::setStatus(OrderStatus orderStatus) {
-    status = orderStatus;
+void Order::setStatus(OrderStatus status) {
+    status = status;
 }
 
-void Order::setCollectorId(int collector) {
-    collectorId = collector;
+void Order::setCollectorId(int collectorId) {
+    collectorId = collectorId;
 }
 
-void Order::setDriverId(int driver) {
-    driverId = driver;
+void Order::setDriverId(int driverIda) {
+    driverId = driverIda;
 }
 
 int Order::getCollectorId() const {
@@ -37,34 +37,15 @@ OrderStatus Order::getStatus() const {
     return status;
 }
 
-const std::string Order::toString() const {
-    std::string statusStr;
-    switch (status) {
-        case OrderStatus::PENDING:
-            statusStr = "Pending";
-            break;
-        case OrderStatus::COLLECTING:
-            statusStr = "Collecting";
-            break;
-        case OrderStatus::DELIVERING:
-            statusStr = "Delivering";
-            break;
-        case OrderStatus::COMPLETED:
-            statusStr = "Completed";
-            break;
-    }
+const string Order::toString() const {
+    std::stringstream ss;
+    ss << "Order Information:" << std::endl;
+    ss << "ID: " << id << std::endl;
+    ss << "Customer ID: " << customerId << std::endl;
+    ss << "Distance: " << distance << std::endl;
+    ss << "Collector ID: " << collectorId << std::endl;
+    ss << "Driver ID: " << driverId << std::endl;
+    ss << "Status: " << static_cast<int>(status) << std::endl;
 
-    return "Order ID: " + std::to_string(id) + ", Customer ID: " + std::to_string(customerId) + ", Distance: " +
-           std::to_string(distance) + ", Status: " + statusStr;
-}
-
-int main() {
-    // Example usage
-    Order order1(1, 101, 10);
-    order1.setStatus(OrderStatus::COLLECTING);
-    order1.setCollectorId(201);
-
-    std::cout << order1.toString() << std::endl;
-
-    return 0;
+    return ss.str();
 }
