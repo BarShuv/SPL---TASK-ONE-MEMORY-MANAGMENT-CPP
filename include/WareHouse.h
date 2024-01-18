@@ -6,7 +6,7 @@ using namespace std;
 #include "Order.h"
 #include "Customer.h"
 
-class BaseAction;
+class Action;
 class Volunteer;
 
 // Warehouse responsible for Volunteers, Customers Actions, and Orders.
@@ -15,15 +15,14 @@ class Volunteer;
 class WareHouse {
 
     public:
-        WareHouse(const string &configFilePath);
+        WareHouse(const string &configFilePathP);
         void start();
-        const vector<BaseAction*> &getActionsLog() const;
         void addOrder(Order* order);
         void addAction(BaseAction* action);
-        void printActionsLogs();
         Customer &getCustomer(int customerId) const;
         Volunteer &getVolunteer(int volunteerId) const;
         Order &getOrder(int orderId) const;
+        const vector<BaseAction*> &getActions() const;
         void close();
         void open();
 

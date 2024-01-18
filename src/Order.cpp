@@ -1,8 +1,8 @@
 #include "../include/Order.h"
 #include <sstream>
 
-Order::Order(int id, int customerId, int distance)
-    : id(id), customerId(customerId), distance(distance), status(OrderStatus::PENDING),
+Order::Order(int idP, int customerIdP, int distanceP)
+    : id(idP), customerId(customerIdP), distance(distanceP), status(OrderStatus::PENDING),
       collectorId(NO_VOLUNTEER), driverId(NO_VOLUNTEER) {}
 
 int Order::getId() const {
@@ -14,15 +14,15 @@ int Order::getCustomerId() const {
 }
 
 void Order::setStatus(OrderStatus status) {
-    status = status;
+    this->status = status;
 }
 
 void Order::setCollectorId(int collectorId) {
-    collectorId = collectorId;
+    this->collectorId = collectorId;
 }
 
-void Order::setDriverId(int driverIda) {
-    driverId = driverIda;
+void Order::setDriverId(int driverId) {
+    this->driverId = driverId;
 }
 
 int Order::getCollectorId() const {

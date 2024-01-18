@@ -20,7 +20,8 @@ enum class OrderStatus {
 class Order {
 
     public:
-        Order(int id, int customerId, int distance);
+        //P represnts that this is a parameter
+        Order(int idP, int customerIdP, int distanceP);
         int getId() const;
         int getCustomerId() const;
         void setStatus(OrderStatus status);
