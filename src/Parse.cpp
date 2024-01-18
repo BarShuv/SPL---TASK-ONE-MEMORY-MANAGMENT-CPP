@@ -2,53 +2,89 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include "../include/Parse.h"
 
-int main() {
-    // Replace "ConfigFileExample.txt" with the actual file name
-    std::ifstream file("./bin/configFileExample.txt");
+
+    bool Parse:: doParse(std::string file_name){
+
+    std::ifstream file(file_name);
 
     if (!file.is_open()) {
         std::cerr << "Error opening file. Make sure the file is in the correct location and check permissions." << std::endl;
-        return 1;
+        return false;
     }
 
     std::string line;
+    std::string firstWord; //can be volunteer or customer
+    //parameters for costumer
+    std::string customerName, customerType;
+    int distance, maxOrders;
+    //parameters for volunteer
+    std::string  volunteerName, volunteerType; //type - collector, limited collector , driver, limited driver
+    int coolDown,maxOrdersCollector; // collector fields
+    int maxDistance,distance_per_step,maxOrdersDriver; //driver fields
     while (std::getline(file, line)) {
-        // Process the line here
-        // std::cout << "Read line: " << line << std::endl;
-
+        //get the line
         std::istringstream iss(line);
-        std::string firstWord;
-        std::string category, customerName, customerType;
-        int distance, maxOrders;
-
 
         if (iss >> firstWord) {
             // firstWord now contains the first word of the inputString
-            std::cout << "First word: " << firstWord << std::endl;
 
             if (firstWord == "customer") {
-                std::cout << "Yes, the first word is 'customer'" << std::endl;
                 // Extract customer details and add them to your system
                 if (iss >> customerName >> customerType >> distance >> maxOrders) {
+                    
                     // Now, you have the corresponding variables filled with the parsed values
-                    std::cout << "Customer Name: " << customerName << std::endl;
-                    std::cout << "Customer Type: " << customerType << std::endl;
-                    std::cout << "Distance: " << distance << std::endl;
-                    std::cout << "Max Orders: " << maxOrders << std::endl;
+                    std::cout << customerName << customerType<< distance<< maxOrders<< std::endl;
                     ///////////////////////////////////////////////////////////////
-                    //when we do this - add here: AddCustomer(customerName, customerType, distance, maxOrders);
-                    ///////////////////////////////////////////////////////////////////////////////
+                    //when we do this - add here: 
+                    //AddCustomer(customerName, customerType, distance, maxOrders);
                 } 
                 else {
-                std::cerr << "Error parsing customer details." << std::endl;
+                    std::cerr << "Error parsing customer details." << std::endl;
                 }
                 
 
         } 
         else if (firstWord == "volunteer") {
-                std::cout << "Yes, the first word is 'volunteer'" << std::endl;
-                // BaseAction.AddVolunteer(string volunteerName, string volunteerRole, int coolDown, int maxDistance, int distancePerStep, int maxOrders);
+                // Extract volunteer details and add them to your system
+                if (iss >> volunteerName >> volunteerType) {
+
+                    if (volunteerType == "collector")
+                    {
+                        iss >> coolDown;
+                        std::cout <<volunteerName << volunteerType <<coolDown<< "it is" << std::endl;
+                        //when we do this - add here: 
+                        //addCollector(volunteerName, coolDown); (regular collector)
+                    }
+
+                    if (volunteerType == "limited_collector")
+                    {
+                        iss >> coolDown >> maxOrdersCollector;
+                        std::cout <<volunteerName << volunteerType <<coolDown<<maxOrdersCollector<< " it is" << std::endl;                        
+                        //when we do this - add here: 
+                        //addLimitedCollector(volunteerName, coolDown, maxOrdersCollector); (limited collector)
+                    }
+                    if (volunteerType == "driver")
+                    {
+                        iss >> maxDistance >> distance_per_step;
+                        std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< " it is" << std::endl;                        
+                        //when we do this - add here: 
+                        //addDriver(volunteerName, maxDistance, distance_per_step); (regular driver)
+                    }
+                    if (volunteerType == "limited_driver")
+                    {
+                        iss >> maxDistance >> distance_per_step>>maxOrdersDriver;
+                        std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< maxOrdersDriver<<" it is" << std::endl;                        
+                        //when we do this - add here: 
+                        //addLimitedDriver(volunteerName, maxDistance, distance_per_step,maxOrdersDriver); (limited driver)
+                    }
+                    
+                } 
+                else {
+                std::cerr << "Error parsing volunteer details." << std::endl;
+                }
+
             } 
             else {
                 std::cout << "Not recognized word" << std::endl;
@@ -62,6 +98,13 @@ int main() {
     }
 
     file.close();
+    return true;
 
+}
+
+
+int main() {
+    Parse p;
+    p.doParse("./bin/configFileExample.txt");
     return 0;
 }
