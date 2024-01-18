@@ -11,7 +11,7 @@ class Order;
 class Customer {
     public:
         //P represnts that this is a parameter
-        Customer(int idP, const string &nameP, int locationDistanceP, int maxOrdersP);
+        Customer(int id, const string &name, int locationDistance, int maxOrders);
         const string &getName() const;
         int getId() const;
         int getCustomerDistance() const;
@@ -30,6 +30,7 @@ class Customer {
         const int locationDistance;
         const int maxOrders;
         vector<int> ordersId;
+        const int ordersMade;
 };
 
 

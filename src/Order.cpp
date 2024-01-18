@@ -1,9 +1,18 @@
 #include "../include/Order.h"
 #include <sstream>
 
-Order::Order(int idP, int customerIdP, int distanceP)
-    : id(idP), customerId(customerIdP), distance(distanceP), status(OrderStatus::PENDING),
-      collectorId(NO_VOLUNTEER), driverId(NO_VOLUNTEER) {}
+
+
+Order::Order(int idP, int customerId, int distance){
+    this->id = idP;
+    this->customerId=customerId;
+
+
+
+}
+    
+
+
 
 int Order::getId() const {
     return id;
@@ -48,4 +57,5 @@ const string Order::toString() const {
     ss << "Status: " << static_cast<int>(status) << std::endl;
 
     return ss.str();
+}
 }

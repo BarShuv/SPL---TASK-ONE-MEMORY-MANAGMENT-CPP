@@ -6,7 +6,6 @@ using std::string;
 using std::vector;
 
 
-
 Customer::Customer(int id, const std::string &name, int locationDistance, int maxOrders)
     : id(id), name(name), locationDistance(locationDistance), maxOrders(maxOrders),ordersId(),ordersMade(0) {}
 
@@ -34,11 +33,10 @@ bool Customer::canMakeOrder() const {
     return ordersMade < maxOrders;
 }
 
-const vector<int> &Customer::getOrders() const {
+//is this ok?
+const vector<int> &Customer::getOrdersIds() const {
     return ordersId;
 }
-
-
 
 int Customer::addOrder(int orderId) {
     if (canMakeOrder()) {
@@ -52,20 +50,11 @@ int Customer::addOrder(int orderId) {
 
 
 
-class SoldierCustomer: public Customer {
-    public:
-        
-        SoldierCustomer(int id, string name, int locationDistance, int maxOrders)
+        SoldierCustomer::SoldierCustomer(int id, string name, int locationDistance, int maxOrders)
           : Customer(id, name,locationDistance,maxOrders) { }
-        
-        
-        SoldierCustomer *clone() const override
+               
+        Customer:SoldierCustomer:: *clone() 
         {
-            
-            
-            
-        }
-    
-    
-        
-};
+                return new SoldierCustomer(*this);  
+
+        }       
