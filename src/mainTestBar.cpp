@@ -21,5 +21,5 @@ int main() {
     //std::cout << order1.toString() << std::endl;
 
     SoldierCustomer soli(212400114,"bar",120,6);
-    return 0;
+    std::cout << soli.getId() << std::endl;
 }

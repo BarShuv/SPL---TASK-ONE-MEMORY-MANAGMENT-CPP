@@ -15,12 +15,11 @@ class Customer {
         int getMaxOrders() const; //Returns maxOrders
         int getLocationDistance() const; //Returns locationDistance
         int getNumOrders() const; //Returns num of orders the customer has made so far
-        //int getOrdersMade() const; //return num of orders made
         bool canMakeOrder() const; //Returns true if the customer didn't reach max orders
         const vector<int> &getOrdersIds() const;
         int addOrder(int orderId); //return OrderId if order was added successfully, -1 otherwise
-
         virtual Customer *clone() const = 0; // Return a copy of the customer
+        virtual ~Customer()=default;
 
         
     private:

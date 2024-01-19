@@ -1,15 +1,11 @@
 #include "../include/Order.h"
 #include <sstream>
+#include <iostream>
 
-
-
-Order::Order(int idP, int customerId, int distance):id(idP),customerId(customerId),distance(distance){
+Order::Order(int idP, int customerId, int distance)
+:id(idP),customerId(customerId),distance(distance),status(OrderStatus::PENDING),collectorId(NO_VOLUNTEER),driverId(NO_VOLUNTEER)
+{}
     
-}
-    
-
-
-
 int Order::getId() const {
     return id;
 }
@@ -58,3 +54,11 @@ const string Order::toString() const {
 
     return ss.str();
 }
+
+ //   int main(int argc, char** argv){
+   //     Order o =  Order(2222,3333,60);
+//
+  //      std::cout << o.toString()<<std::endl;
+
+    //    return 0;
+    //}
