@@ -1,11 +1,12 @@
 #include "WareHouse.h"
 #include <iostream>
-
+#include "Parse.h"
 using namespace std;
 
 WareHouse* backup = nullptr;
 
 int main(int argc, char** argv){
+    Parse::doParse("asdasdas");
     if(argc!=2){
         std::cout << "usage: warehouse <config_path>" << std::endl;
         return 0;

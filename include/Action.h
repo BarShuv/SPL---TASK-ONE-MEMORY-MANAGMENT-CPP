@@ -14,8 +14,6 @@ enum class CustomerType{
 };
 
 
-class Customer;
-
 class BaseAction{
     public:
         BaseAction();

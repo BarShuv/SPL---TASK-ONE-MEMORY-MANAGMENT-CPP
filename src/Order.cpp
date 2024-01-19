@@ -3,12 +3,8 @@
 
 
 
-Order::Order(int idP, int customerId, int distance){
-    this->id = idP;
-    this->customerId=customerId;
-
-
-
+Order::Order(int idP, int customerId, int distance):id(idP),customerId(customerId),distance(distance){
+    
 }
     
 
@@ -57,5 +53,4 @@ const string Order::toString() const {
     ss << "Status: " << static_cast<int>(status) << std::endl;
 
     return ss.str();
-}
 }

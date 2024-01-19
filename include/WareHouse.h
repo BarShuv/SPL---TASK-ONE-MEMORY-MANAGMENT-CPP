@@ -1,12 +1,11 @@
 #pragma once
 #include <string>
 #include <vector>
-using namespace std;
 
 #include "Order.h"
 #include "Customer.h"
 
-class Action;
+class BaseAction;
 class Volunteer;
 
 // Warehouse responsible for Volunteers, Customers Actions, and Orders.
@@ -15,7 +14,7 @@ class Volunteer;
 class WareHouse {
 
     public:
-        WareHouse(const string &configFilePathP);
+        WareHouse(const string &configFilePath);
         void start();
         void addOrder(Order* order);
         void addAction(BaseAction* action);

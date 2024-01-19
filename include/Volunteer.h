@@ -9,8 +9,7 @@ using std::vector;
 
 class Volunteer {
     public:
-        //P represnts that this is a parameter
-        Volunteer(int idP, const string &nameP);
+        Volunteer(int id, const string &name);
         int getId() const;
         const string &getName() const;
         int getActiveOrderId() const;
@@ -32,13 +31,14 @@ class Volunteer {
     private:
         const int id;
         const string name;
+
 };
 
 
 class CollectorVolunteer: public Volunteer {
 
     public:
-        CollectorVolunteer(int idP, string nameP, int coolDownP);
+        CollectorVolunteer(int id, const string &name, int coolDown);
         CollectorVolunteer *clone() const override;
         void step() override;
         int getCoolDown() const;
@@ -57,7 +57,7 @@ class CollectorVolunteer: public Volunteer {
 class LimitedCollectorVolunteer: public CollectorVolunteer {
 
     public:
-        LimitedCollectorVolunteer(int idP, string nameP, int coolDownP ,int maxOrdersP);
+        LimitedCollectorVolunteer(int id, const string &name, int coolDown ,int maxOrders);
         LimitedCollectorVolunteer *clone() const override;
         bool hasOrdersLeft() const override;
         bool canTakeOrder(const Order &order) const override;
@@ -75,7 +75,7 @@ class LimitedCollectorVolunteer: public CollectorVolunteer {
 class DriverVolunteer: public Volunteer {
 
     public:
-        DriverVolunteer(int idP, string nameP, int maxDistanceP, int distancePerStepP);
+        DriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep);
         DriverVolunteer *clone() const override;
 
         int getDistanceLeft() const;
@@ -97,7 +97,7 @@ class DriverVolunteer: public Volunteer {
 class LimitedDriverVolunteer: public DriverVolunteer {
 
     public:
-        LimitedDriverVolunteer(int idP, const string &nameP, int maxDistanceP, int distancePerStepP,int maxOrdersP);
+        LimitedDriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep,int maxOrders);
         LimitedDriverVolunteer *clone() const override;
         int getMaxOrders() const;
         int getNumOrdersLeft() const;

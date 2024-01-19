@@ -5,9 +5,6 @@
 using std::string;
 using std::vector;
 
-
-class Volunteer;
-
 enum class OrderStatus {
     PENDING,
     COLLECTING,
@@ -20,7 +17,6 @@ enum class OrderStatus {
 class Order {
 
     public:
-        //P represnts that this is a parameter
         Order(int id, int customerId, int distance);
         int getId() const;
         int getCustomerId() const;

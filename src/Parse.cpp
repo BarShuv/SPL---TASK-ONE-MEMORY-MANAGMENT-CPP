@@ -105,7 +105,7 @@
 
 
 int main() {
-    Parse p;
-    p.doParse("./bin/configFileExample.txt");
+    
+    Parse::doParse("asd");
     return 0;
 }

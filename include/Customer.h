@@ -5,18 +5,17 @@ using std::string;
 using std::vector;
 
 
-class Order;
-
 
 class Customer {
     public:
-        //P represnts that this is a parameter
         Customer(int id, const string &name, int locationDistance, int maxOrders);
         const string &getName() const;
         int getId() const;
         int getCustomerDistance() const;
         int getMaxOrders() const; //Returns maxOrders
+        int getLocationDistance() const; //Returns locationDistance
         int getNumOrders() const; //Returns num of orders the customer has made so far
+        //int getOrdersMade() const; //return num of orders made
         bool canMakeOrder() const; //Returns true if the customer didn't reach max orders
         const vector<int> &getOrdersIds() const;
         int addOrder(int orderId); //return OrderId if order was added successfully, -1 otherwise
@@ -30,14 +29,13 @@ class Customer {
         const int locationDistance;
         const int maxOrders;
         vector<int> ordersId;
-        const int ordersMade;
+        int ordersMade;
 };
 
 
 class SoldierCustomer: public Customer {
     public:
-        //P represnts that this is a parameter
-        SoldierCustomer(int idP, string nameP, int locationDistanceP, int maxOrdersP);
+        SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders);
         SoldierCustomer *clone() const override;
     
     private:
@@ -46,8 +44,7 @@ class SoldierCustomer: public Customer {
 
 class CivilianCustomer: public Customer {
     public:
-        //P represnts that this is a parameter
-        CivilianCustomer(int idP, string nameP, int locationDistanceP, int maxOrdersP);
+        CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders);
         CivilianCustomer *clone() const override;
     
     private:
