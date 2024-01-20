@@ -2,35 +2,76 @@
 #include "../include/Order.h"
 #include <string>
 #include <vector>
+#include <iostream>
+#include <sstream>
 using std::string;
 using std::vector;
 
 
-CollectorVolunteer::CollectorVolunteer(int id, const string &name, int coolDown)
-    : CollectorVolunteer(id, name, coolDown)
-{
-    // not sure if the inheritance is being done correctly.
-}
+class CollectorVolunteer : public Volunteer {
+public:
+    CollectorVolunteer(int id, const string &name, int coolDown)
+        : Volunteer(id, name), coolDown(coolDown), timeLeft(0) {}
 
-CollectorVolunteer *CollectorVolunteer::clone() const
-{
-    CollectorVolunteer *a = new CollectorVolunteer(getId(), getName(), getCoolDown()); 
-    a->timeLeft = getTimeLeft();  
-    return (a);
-}
+    CollectorVolunteer *clone() const override {
+        return new CollectorVolunteer(*this);
+    }
 
-bool CollectorVolunteer::hasOrdersLeft() const{
-    return true;
-}
+    void step() override {
+        if (timeLeft > 0) {
+            timeLeft--;
+            if (timeLeft == 0) {
+                completedOrderId = activeOrderId;
+                activeOrderId = NO_ORDER;
+            }
+        }
+    }
 
-bool CollectorVolunteer::canTakeOrder(const Order &order) const{
-    return ((coolDown == 0)&&(getActiveOrderId == 0));
-}
+    int getCoolDown() const {
+        return coolDown;
+    }
 
-// virtual void acceptOrder(const Order &order) = 0;
-// Prepare for new order(Reset activeOrderId,TimeLeft,DistanceLeft,OrdersLeft depends on the volunteer type)
+    int getTimeLeft() const {
+        return timeLeft;
+    }
 
-void CollectorVolunteer::acceptOrder(const Order &order){
-    activeOrderId = order.getId();
-    timeLeft = coolDown;
-}
+    bool decreaseCoolDown() {
+        if (timeLeft > 0) {
+            timeLeft--;
+            return timeLeft == 0;
+        }
+        return false;
+    }
+
+    bool hasOrdersLeft() const override {
+        return true; // Collector always has orders left
+    }
+
+    bool canTakeOrder(const Order &order) const override {
+        return !isBusy(); // Collector can take an order if not busy
+    }
+
+    // Prepare for new order(Reset activeOrderId,TimeLeft,DistanceLeft,OrdersLeft depends on the volunteer type)
+    void acceptOrder(const Order &order) override {
+        activeOrderId = order.getId();
+        timeLeft = coolDown;
+    }
+    
+    int getTimeLeft() const{
+        return timeLeft;
+    }
+
+    string toString() const override {
+         std::stringstream str;
+         str << "Volunteer ID:" << getId() << std::endl;
+         str << "Is busy:" << isBusy() << std::endl;
+         str << "Order ID:" << getActiveOrderId() << std::endl;
+         str << "Time left:" << getTimeLeft() << std::endl;
+         return str.str();
+    }
+
+private:
+    const int coolDown;
+    int timeLeft;
+};
+

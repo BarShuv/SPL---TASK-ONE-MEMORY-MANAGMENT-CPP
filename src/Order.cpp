@@ -42,6 +42,10 @@ OrderStatus Order::getStatus() const {
     return status;
 }
 
+ int Order::getDistance() const{
+    return distance;
+ }
+
 const string Order::toString() const {
     std::stringstream ss;
     ss << "Order Information:" << std::endl;

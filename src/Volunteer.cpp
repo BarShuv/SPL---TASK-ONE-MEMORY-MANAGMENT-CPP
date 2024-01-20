@@ -5,7 +5,9 @@
 using std::string;
 using std::vector;
 
-Volunteer::Volunteer(int idP, const string &nameP) : id(idP), name(nameP), completedOrderId(0), activeOrderId(0) {}
+
+
+Volunteer::Volunteer(int id, const string &name) : id(id), name(name), completedOrderId(NO_ORDER), activeOrderId(NO_ORDER) {}
 
 int Volunteer::getId() const {
     return id;
@@ -15,21 +17,14 @@ const string &Volunteer::getName() const {
     return name;
 }
 
-int Volunteer::getActiveOrderId() const{
-    if(activeOrderId==0) {
-        // add code to handle 0
-    }
-    else return activeOrderId;
+int Volunteer::getActiveOrderId() const {
+    return activeOrderId;
 }
 
-int Volunteer::getCompletedOrderId() const{
-    if(completedOrderId==0) {
-        // add code to handle 0
-    }
-    else return completedOrderId;
+int Volunteer::getCompletedOrderId() const {
+    return completedOrderId;
 }
 
-bool Volunteer::isBusy() const{
-    if(activeOrderId == 0) return false;
-    return true;
+bool Volunteer::isBusy() const {
+    return activeOrderId != NO_ORDER;
 }

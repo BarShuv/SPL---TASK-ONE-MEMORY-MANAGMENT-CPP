@@ -48,6 +48,7 @@ class CollectorVolunteer: public Volunteer {
         bool canTakeOrder(const Order &order) const override;
         void acceptOrder(const Order &order) override;
         string toString() const override;
+        int getTimeLeft() const;
     
     private:
         const int coolDown; // The time it takes the volunteer to process an order
