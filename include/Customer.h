@@ -43,9 +43,12 @@ class SoldierCustomer: public Customer {
 
 class CivilianCustomer: public Customer {
     public:
+        static CivilianCustomer nullCustomer;
         CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders);
         CivilianCustomer *clone() const override;
     
     private:
         
 };
+
+

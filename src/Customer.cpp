@@ -68,7 +68,7 @@ using std::vector;
         //make deep copy
         const vector<int> orders = getOrdersIds();
         SoldierCustomer *a = new SoldierCustomer(getId(),getName(),getLocationDistance(),getMaxOrders());
-        for (std::vector<int>::size_type i = 0; i < orders.size(); i++) {
+        for (vector<int>::size_type i = 0; i < orders.size(); i++) {
             a->addOrder(orders[i]);
         }
         return (a);
@@ -81,7 +81,7 @@ using std::vector;
         //make deep copy
         const vector<int> orders = getOrdersIds();
         CivilianCustomer *a = new CivilianCustomer(getId(),getName(),getLocationDistance(),getMaxOrders());
-        for (std::vector<int>::size_type i = 0; i < orders.size(); i++) {
+        for (vector<int>::size_type i = 0; i < orders.size(); i++) {
             a->addOrder(orders[i]);
         }
         return (a);

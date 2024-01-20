@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "WareHouse.h"
+
 using std::string;
 using std::vector;
 
@@ -32,7 +33,7 @@ class BaseAction{
         ActionStatus status;
 };
 
-class SimulateStep : public BaseAction {
+class SimulateStep : public BaseAction { //amit do this
 
     public:
         SimulateStep(int numOfSteps);

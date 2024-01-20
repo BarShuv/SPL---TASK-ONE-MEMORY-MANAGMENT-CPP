@@ -104,8 +104,8 @@
 }
 
 
-int main() {
+//int main() {
     
-    Parse::doParse("asd");
-    return 0;
-}
+  //  Parse::doParse("asd");
+  // return 0;
+//}
