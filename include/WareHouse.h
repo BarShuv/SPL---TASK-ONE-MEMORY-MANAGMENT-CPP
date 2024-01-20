@@ -3,9 +3,10 @@
 #include <vector>
 #include "Order.h"
 #include "Customer.h"
-#include "Action.h"
+//#include "Action.h"
 class BaseAction;
 class Volunteer;
+class Order;
 
 // Warehouse responsible for Volunteers, Customers Actions, and Orders.
 
@@ -17,12 +18,14 @@ class WareHouse {
         void start();
         void addOrder(Order* order);
         void addAction(BaseAction* action);
+        void addCustomer(Customer* customer); //adding customer to customers vector
         Customer &getCustomer(int customerId) const;
         Volunteer &getVolunteer(int volunteerId) const; //Amit implement this
         Order &getOrder(int orderId) const;
         const vector<BaseAction*> &getActions() const;
         void close();
         void open();
+        
 
     private:
 

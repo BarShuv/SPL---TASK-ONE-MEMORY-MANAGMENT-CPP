@@ -148,6 +148,11 @@ void WareHouse::addAction(BaseAction* action){
     actionsLog.push_back(action);
 }
 
+void WareHouse::addCustomer(Customer* customer){
+    //adding the new action to the actions log vector
+    customers.push_back(customer);
+}
+
 Customer& WareHouse::getCustomer(int customerId) const
 {
 //returns a reference to the costumer if exists in the customers vector , nullptr otherwise  
@@ -157,8 +162,8 @@ Customer& WareHouse::getCustomer(int customerId) const
         }
     }
     //is this ok?
-    CivilianCustomer *a =new  CivilianCustomer(-1,"",-1,-1);
-    return *a;
+    CivilianCustomer *temp =new  CivilianCustomer(-1,"",-1,-1);
+    return *temp;
 }
 
 //Volunteer& WareHouse::getVolunteer(int volunteerId) const
@@ -221,10 +226,12 @@ void WareHouse::open()
 
 
 
-  //  int main(int argc, char** argv){
+    int main(int argc, char** argv){
 
-       // WareHouse a = WareHouse("bla");
-      //  Order* o = new Order(1,2,3);
-       // a.addOrder(o);
-       // return 0;
-   // }
+        WareHouse a = WareHouse("bla");
+        Customer* yos = new CivilianCustomer(212400113,"yossi",10,3);
+        a.addCustomer(yos);
+        Order* o = new Order(1,11,3);
+        a.addOrder(o);
+        return 0;
+    }
