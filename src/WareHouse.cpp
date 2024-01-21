@@ -26,7 +26,6 @@ void WareHouse::start()
     //break the input to command and parameters
     string command;
 
-
     std::cout << "Warehouse is open!" << std::endl;
 
     while(isOpen)
@@ -176,7 +175,7 @@ Customer& WareHouse::getCustomer(int customerId) const
 
 Volunteer& WareHouse::getVolunteer(int volunteerId) const
 {
-//returns a reference to the costumer if exists in the customers vector , nullptr otherwise  
+//returns a reference to the volunteer if exists in the customers vector , nullptr otherwise  
     for (vector<Volunteer*>::size_type i = 0; i < volunteers.size(); i++) {
         if(volunteers[i]->getId() == volunteerId){
             return *volunteers[i];

@@ -24,7 +24,7 @@ class WareHouse {
         Customer &getCustomer(int customerId) const;
         Volunteer &getVolunteer(int volunteerId) const; 
         Order &getOrder(int orderId) const;
-        const vector<BaseAction*> &getActions() const;
+        const vector<BaseAction*> &getActions() const; //maybe we will need to add something
         void close();
         void open();
         bool doParse(string file_name);

@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "WareHouse.h"
-
 using std::string;
 using std::vector;
 
@@ -58,7 +57,7 @@ class AddOrder : public BaseAction {
 
 class AddCustomer : public BaseAction {
     public:
-        AddCustomer(string customerName, string customerType, int distance, int maxOrders);
+        AddCustomer(const string &customerName, const string &customerType, int distance, int maxOrders);
         void act(WareHouse &wareHouse) override;
         AddCustomer *clone() const override;
         string toString() const override;
@@ -92,18 +91,18 @@ class PrintCustomerStatus: public BaseAction {
 };
 
 
-class PrintVolunteerStatus : public BaseAction {
+class PrintVolunteerStatus : public BaseAction { //amit do this
     public:
         PrintVolunteerStatus(int id);
         void act(WareHouse &wareHouse) override;
         PrintVolunteerStatus *clone() const override;
         string toString() const override;
     private:
-        const int VolunteerId;
+        const int volunteerId;
 };
 
 
-class PrintActionsLog : public BaseAction {
+class PrintActionsLog : public BaseAction { //amit do this
     public:
         PrintActionsLog();
         void act(WareHouse &wareHouse) override;
@@ -112,7 +111,7 @@ class PrintActionsLog : public BaseAction {
     private:
 };
 
-class Close : public BaseAction {
+class Close : public BaseAction { //amit do this
     public:
         Close();
         void act(WareHouse &wareHouse) override;
@@ -121,7 +120,7 @@ class Close : public BaseAction {
     private:
 };
 
-class BackupWareHouse : public BaseAction {
+class BackupWareHouse : public BaseAction { //amit do this
     public:
         BackupWareHouse();
         void act(WareHouse &wareHouse) override;
@@ -131,7 +130,7 @@ class BackupWareHouse : public BaseAction {
 };
 
 
-class RestoreWareHouse : public BaseAction {
+class RestoreWareHouse : public BaseAction { //amit do this
     public:
         RestoreWareHouse();
         void act(WareHouse &wareHouse) override;
