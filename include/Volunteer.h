@@ -23,6 +23,8 @@ class Volunteer {
 
         virtual string toString() const = 0;
         virtual Volunteer* clone() const = 0; //Return a copy of the volunteer
+        virtual ~Volunteer()=default;
+
 
     protected:
         int completedOrderId; //Initialized to NO_ORDER if no order has been completed yet
@@ -48,7 +50,6 @@ class CollectorVolunteer: public Volunteer {
         bool canTakeOrder(const Order &order) const override;
         void acceptOrder(const Order &order) override;
         string toString() const override;
-        int getTimeLeft() const;
     
     private:
         const int coolDown; // The time it takes the volunteer to process an order

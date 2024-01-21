@@ -8,28 +8,26 @@ using std::string;
 using std::vector;
 
 
-class DriverVolunteer : public Volunteer {
-public:
-    DriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep)
+    DriverVolunteer::DriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep)
         : Volunteer(id, name), maxDistance(maxDistance), distancePerStep(distancePerStep), distanceLeft(0) {}
 
-    DriverVolunteer *clone() const override {
+    DriverVolunteer* DriverVolunteer::clone() const{
         return new DriverVolunteer(*this);
     }
 
-    int getDistanceLeft() const {
+    int DriverVolunteer::getDistanceLeft() const {
         return distanceLeft;
     }
 
-    int getMaxDistance() const {
+    int DriverVolunteer::getMaxDistance() const {
         return maxDistance;
     }
 
-    int getDistancePerStep() const {
+    int DriverVolunteer::getDistancePerStep() const {
         return distancePerStep;
     }
 
-    bool decreaseDistanceLeft() {
+    bool DriverVolunteer::decreaseDistanceLeft() {
         if (distanceLeft > 0) {
             distanceLeft -= distancePerStep;
             return distanceLeft <= 0;
@@ -37,26 +35,26 @@ public:
         return false;
     }
 
-    bool hasOrdersLeft() const override {
+    bool DriverVolunteer::hasOrdersLeft() const {
         return true; // Driver always has orders left
     }
 
-    bool canTakeOrder(const Order &order) const override {
+    bool DriverVolunteer::canTakeOrder(const Order &order) const {
         return !isBusy() && order.getDistance() <= maxDistance;
     }
 
-    void acceptOrder(const Order &order) override {
+    void DriverVolunteer::acceptOrder(const Order &order) {
         activeOrderId = order.getId();
         distanceLeft = order.getDistance();
     }
 
-    void step() override {
+    void DriverVolunteer::step() {
         if (distanceLeft > 0) {
             decreaseDistanceLeft();
         }
     }
 
-    string toString() const override {
+    string DriverVolunteer::toString() const {
          std::stringstream str;
          str << "Volunteer ID:" << getId() << std::endl;
          str << "Is busy:" << isBusy() << std::endl;
@@ -65,8 +63,3 @@ public:
          return str.str();
     }
 
-private:
-    const int maxDistance;
-    const int distancePerStep;
-    int distanceLeft;
-};

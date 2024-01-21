@@ -8,16 +8,14 @@ using std::string;
 using std::vector;
 
 
-class CollectorVolunteer : public Volunteer {
-public:
-    CollectorVolunteer(int id, const string &name, int coolDown)
+    CollectorVolunteer::CollectorVolunteer(int id, const string &name, int coolDown)
         : Volunteer(id, name), coolDown(coolDown), timeLeft(0) {}
 
-    CollectorVolunteer *clone() const override {
+    CollectorVolunteer* CollectorVolunteer::clone() const {
         return new CollectorVolunteer(*this);
     }
 
-    void step() override {
+    void CollectorVolunteer::step() {
         if (timeLeft > 0) {
             timeLeft--;
             if (timeLeft == 0) {
@@ -27,15 +25,15 @@ public:
         }
     }
 
-    int getCoolDown() const {
+    int CollectorVolunteer::getCoolDown() const {
         return coolDown;
     }
 
-    int getTimeLeft() const {
+    int CollectorVolunteer::getTimeLeft() const {
         return timeLeft;
     }
 
-    bool decreaseCoolDown() {
+    bool CollectorVolunteer::decreaseCoolDown() {
         if (timeLeft > 0) {
             timeLeft--;
             return timeLeft == 0;
@@ -43,25 +41,21 @@ public:
         return false;
     }
 
-    bool hasOrdersLeft() const override {
+    bool CollectorVolunteer::hasOrdersLeft() const {
         return true; // Collector always has orders left
     }
 
-    bool canTakeOrder(const Order &order) const override {
+    bool CollectorVolunteer::canTakeOrder(const Order &order) const {
         return !isBusy(); // Collector can take an order if not busy
     }
 
     // Prepare for new order(Reset activeOrderId,TimeLeft,DistanceLeft,OrdersLeft depends on the volunteer type)
-    void acceptOrder(const Order &order) override {
+    void CollectorVolunteer::acceptOrder(const Order &order) {
         activeOrderId = order.getId();
         timeLeft = coolDown;
     }
     
-    int getTimeLeft() const{
-        return timeLeft;
-    }
-
-    string toString() const override {
+    string CollectorVolunteer::toString() const  {
          std::stringstream str;
          str << "Volunteer ID:" << getId() << std::endl;
          str << "Is busy:" << isBusy() << std::endl;
@@ -70,8 +64,4 @@ public:
          return str.str();
     }
 
-private:
-    const int coolDown;
-    int timeLeft;
-};
 
