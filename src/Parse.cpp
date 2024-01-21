@@ -2,11 +2,11 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "../include/Parse.h"
+#include "../include/WareHouse.h"
 
 
 
-    bool Parse:: doParse(std::string file_name){
+bool WareHouse:: doParse(std::string file_name){
 
     std::ifstream file(file_name);
 
@@ -35,14 +35,24 @@
                 // Extract customer details and add them to your system
                 if (iss >> customerName >> customerType >> distance >> maxOrders) {
                     
-                    // Now, you have the corresponding variables filled with the parsed values
-                    std::cout << customerName << customerType<< distance<< maxOrders<< std::endl;
+                    //corresponding variables filled with the parsed values
+                    //std::cout << customerName << customerType<< distance<< maxOrders<< std::endl;
                     ///////////////////////////////////////////////////////////////
-                    //when we do this - add here: 
-                    //AddCustomer(customerName, customerType, distance, maxOrders);
+                    this->customerCounter++;
+                    if (customerType == "civilian")
+                    {
+                        CivilianCustomer* cust = new CivilianCustomer(customerCounter, customerName, distance, maxOrders);
+                        this->addCustomer(cust);
+
+                    }
+                    else
+                    {
+                        SoldierCustomer* cust = new SoldierCustomer(customerCounter, customerName, distance, maxOrders);
+                        this->addCustomer(cust);
+                    }
                 } 
                 else {
-                    std::cerr << "Error parsing customer details." << std::endl;
+                    //std::cerr << "Error parsing customer details." << std::endl;
                 }
                 
 
@@ -50,62 +60,62 @@
         else if (firstWord == "volunteer") {
                 // Extract volunteer details and add them to your system
                 if (iss >> volunteerName >> volunteerType) {
-
+                    this->volunteerCounter++;
                     if (volunteerType == "collector")
                     {
                         iss >> coolDown;
-                        std::cout <<volunteerName << volunteerType <<coolDown<< "it is" << std::endl;
-                        //when we do this - add here: 
-                        //addCollector(volunteerName, coolDown); (regular collector)
+                        //std::cout <<volunteerName << volunteerType <<coolDown<< "it is" << std::endl;    
+                        CollectorVolunteer* vol = new CollectorVolunteer(volunteerCounter, volunteerName, coolDown);
+                        this->addVolunteer(vol);
                     }
 
                     if (volunteerType == "limited_collector")
                     {
                         iss >> coolDown >> maxOrdersCollector;
-                        std::cout <<volunteerName << volunteerType <<coolDown<<maxOrdersCollector<< " it is" << std::endl;                        
-                        //when we do this - add here: 
-                        //addLimitedCollector(volunteerName, coolDown, maxOrdersCollector); (limited collector)
+                        //std::cout <<volunteerName << volunteerType <<coolDown<<maxOrdersCollector<< " it is" << std::endl;                        
+                        LimitedCollectorVolunteer* vol = new LimitedCollectorVolunteer(volunteerCounter, volunteerName, coolDown,maxOrdersCollector);
+                        this->addVolunteer(vol);
                     }
                     if (volunteerType == "driver")
                     {
                         iss >> maxDistance >> distance_per_step;
-                        std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< " it is" << std::endl;                        
-                        //when we do this - add here: 
-                        //addDriver(volunteerName, maxDistance, distance_per_step); (regular driver)
+                        //std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< " it is" << std::endl;                        
+                        DriverVolunteer* vol = new DriverVolunteer(volunteerCounter, volunteerName, maxDistance, distance_per_step);
+                        this->addVolunteer(vol);
                     }
                     if (volunteerType == "limited_driver")
                     {
                         iss >> maxDistance >> distance_per_step>>maxOrdersDriver;
-                        std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< maxOrdersDriver<<" it is" << std::endl;                        
-                        //when we do this - add here: 
-                        //addLimitedDriver(volunteerName, maxDistance, distance_per_step,maxOrdersDriver); (limited driver)
+                        //std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< maxOrdersDriver<<" it is" << std::endl;                        
+                        LimitedDriverVolunteer* vol = new LimitedDriverVolunteer(volunteerCounter, volunteerName, maxDistance, distance_per_step,maxOrdersDriver);
+                        this->addVolunteer(vol);
                     }
                     
                 } 
                 else {
-                std::cerr << "Error parsing volunteer details." << std::endl;
+                //std::cerr << "Error parsing volunteer details." << std::endl;
                 }
 
             } 
             else {
-                std::cout << "Not recognized word" << std::endl;
+                //std::cout << "Not recognized word" << std::endl;
             }
         
         }
         else {
             // Handle the case where the string is empty
-            std::cerr << "The input string is empty." << std::endl;
+            //std::cerr << "The input string is empty." << std::endl;
         }
     }
 
     file.close();
     return true;
 
-}
+    }
 
 
 //int main() {
-    
-  //  Parse::doParse("asd");
-  // return 0;
+
+//  Parse::doParse("asd");
+// return 0;
 //}

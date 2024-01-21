@@ -3,6 +3,7 @@
 #include <vector>
 #include "Order.h"
 #include "Customer.h"
+#include "Volunteer.h"
 //#include "Action.h"
 class BaseAction;
 class Volunteer;
@@ -19,12 +20,14 @@ class WareHouse {
         void addOrder(Order* order);
         void addAction(BaseAction* action);
         void addCustomer(Customer* customer); //adding customer to customers vector
+        void addVolunteer(Volunteer* volunteer); //adding volunteer to volunteers vector
         Customer &getCustomer(int customerId) const;
-        Volunteer &getVolunteer(int volunteerId) const; //Amit implement this
+        Volunteer &getVolunteer(int volunteerId) const; 
         Order &getOrder(int orderId) const;
         const vector<BaseAction*> &getActions() const;
         void close();
         void open();
+        bool doParse(string file_name);
         
 
     private:

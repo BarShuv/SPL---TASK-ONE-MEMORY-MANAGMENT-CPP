@@ -3,8 +3,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-//is this ok?
-#include "Parse.cpp"
+#include "Parse.h"
 using std::vector;
 
 
@@ -16,7 +15,7 @@ actionsLog(),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),cu
 customerCounter(100), //first id for customers
 volunteerCounter(200) // first id for volunteers
 {
-    Parse::doParse(configFilePath);
+    this->doParse(configFilePath);
 }
 
 
@@ -130,13 +129,17 @@ void WareHouse::start()
 
 void WareHouse::addOrder(Order* order){ 
     //if customer exists and not reached to max orders
-     if((getCustomer(order->getCustomerId()).getId() != -1)  && getCustomer(order->getCustomerId()).canMakeOrder())
+    Customer* a = &getCustomer(order->getCustomerId());
+     if((a->getId() != -1) && a->canMakeOrder())
      {
         pendingOrders.push_back(order);
      }
     else
     {
-        //is this ok?
+        if(a->getId() == -1)
+        {//if its a fake customer - delete it
+            delete a;
+        }
         delete order;
         std::cout << "Cannot place this order " << std::endl;
     }
@@ -149,8 +152,13 @@ void WareHouse::addAction(BaseAction* action){
 }
 
 void WareHouse::addCustomer(Customer* customer){
-    //adding the new action to the actions log vector
+    //adding the new Customer to the Customers vector
     customers.push_back(customer);
+}
+
+void WareHouse::addVolunteer(Volunteer* volunteer){
+    //adding the new action to the actions log vector
+    volunteers.push_back(volunteer);
 }
 
 Customer& WareHouse::getCustomer(int customerId) const
@@ -166,24 +174,25 @@ Customer& WareHouse::getCustomer(int customerId) const
     return *temp;
 }
 
-//Volunteer& WareHouse::getVolunteer(int volunteerId) const
-//{
+Volunteer& WareHouse::getVolunteer(int volunteerId) const
+{
 //returns a reference to the costumer if exists in the customers vector , nullptr otherwise  
- //   for (vector<Volunteer*>::size_type i = 0; i < volunteers.size(); i++) {
- //       if(volunteers[i]->getId() == volunteerId){
-  //          return *volunteers[i];
-  //      }
-  //  }
-    //is this ok?
-  //  CivilianCustomer *a =new  CivilianCustomer(-1,"",-1,-1);
-  //  return *a;
-//}
+    for (vector<Volunteer*>::size_type i = 0; i < volunteers.size(); i++) {
+        if(volunteers[i]->getId() == volunteerId){
+            return *volunteers[i];
+        }
+    }
+    //if cant find - return fake volunteer
+    const string s= "";
+    DriverVolunteer *temp =new DriverVolunteer(-1,s, -1, -1);
+    return *temp;
+}
 
 
 
 Order& WareHouse::getOrder(int orderId) const
 {
-//returns a reference to the costumer if exists in the customers vector , nullptr otherwise  
+//returns a reference to the costumer if exists in the customers vector  
     for (vector<Order*>::size_type i = 0; i < pendingOrders.size(); i++) {
         if(pendingOrders[i]->getId() == orderId){
             return *pendingOrders[i];
@@ -199,7 +208,7 @@ Order& WareHouse::getOrder(int orderId) const
             return *completedOrders[i];
         }   
     } 
-    //is this ok?
+    //if cant find - return fake order
     Order *temp =new Order(-1,-1,-1);
     return *temp;
 }
@@ -226,12 +235,13 @@ void WareHouse::open()
 
 
 
-    int main(int argc, char** argv){
+ //   int main(int argc, char** argv){
 
-        WareHouse a = WareHouse("bla");
-        Customer* yos = new CivilianCustomer(212400113,"yossi",10,3);
-        a.addCustomer(yos);
-        Order* o = new Order(1,11,3);
-        a.addOrder(o);
-        return 0;
-    }
+  //      WareHouse a = WareHouse("/home/shubb/spl-Task1/spl-Task1/bin/configFileExample.txt");
+    //    Customer* yos = new CivilianCustomer(212400113,"yossi",10,3);
+     //   a.addCustomer(yos);
+     //   Order* o = new Order(1,212400113,3);
+     //   a.addOrder(o);
+     //   a.start();
+     //   return 0;
+    //}

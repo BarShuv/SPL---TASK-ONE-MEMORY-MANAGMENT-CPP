@@ -64,14 +64,10 @@ using std::vector;
     SoldierCustomer::SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders):
     Customer(id,name,locationDistance,maxOrders)
     {}
+
     SoldierCustomer* SoldierCustomer::clone() const{
         //make deep copy
-        const vector<int> orders = getOrdersIds();
-        SoldierCustomer *a = new SoldierCustomer(getId(),getName(),getLocationDistance(),getMaxOrders());
-        for (vector<int>::size_type i = 0; i < orders.size(); i++) {
-            a->addOrder(orders[i]);
-        }
-        return (a);
+        return new SoldierCustomer(*this);
     }
 
     CivilianCustomer::CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders):
@@ -79,18 +75,14 @@ using std::vector;
     {}
     CivilianCustomer* CivilianCustomer::clone() const{
         //make deep copy
-        const vector<int> orders = getOrdersIds();
-        CivilianCustomer *a = new CivilianCustomer(getId(),getName(),getLocationDistance(),getMaxOrders());
-        for (vector<int>::size_type i = 0; i < orders.size(); i++) {
-            a->addOrder(orders[i]);
-        }
-        return (a);
+        return new CivilianCustomer(*this);
+
     }
 
 /**
     int main(int argc, char** argv){
         std::cout << "Hello World!" << std::endl;
-        CivilianCustomer soli(212400114,"bar",120,6);
+        SoldierCustomer soli(212400114,"bar",120,6);
         std::cout << soli.getId() <<soli.getCustomerDistance()<<soli.getLocationDistance()<<soli.getMaxOrders()<<soli.getName()<<soli.getNumOrders() <<std::endl;
         
         soli.addOrder(22222222);
@@ -107,7 +99,7 @@ using std::vector;
         std::cout << soli.getNumOrders()<<std::endl;
 
 
-        CivilianCustomer newci = *soli.clone();
+        SoldierCustomer newci = *soli.clone();
         std::cout << newci.getId() <<newci.getCustomerDistance()<<newci.getLocationDistance()<<newci.getMaxOrders()<<newci.getName()<<newci.getNumOrders() <<std::endl;
                 vector<int> orders1 = newci.getOrdersIds();
         for (std::vector<int>::size_type i = 0; i < orders1.size(); i++) {
