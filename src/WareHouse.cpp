@@ -1,9 +1,7 @@
 #include "../include/WareHouse.h"
-#include "../include/Parse.h"
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "Parse.h"
 using std::vector;
 
 
@@ -127,21 +125,8 @@ void WareHouse::start()
 
 
 void WareHouse::addOrder(Order* order){ 
-    //if customer exists and not reached to max orders
-    Customer* a = &getCustomer(order->getCustomerId());
-     if((a->getId() != -1) && a->canMakeOrder())
-     {
-        pendingOrders.push_back(order);
-     }
-    else
-    {
-        if(a->getId() == -1)
-        {//if its a fake customer - delete it
-            delete a;
-        }
-        delete order;
-        std::cout << "Cannot place this order " << std::endl;
-    }
+    //adds the new order to pending orders vector
+    pendingOrders.push_back(order);
 }
 
 
@@ -169,7 +154,7 @@ Customer& WareHouse::getCustomer(int customerId) const
         }
     }
     //is this ok?
-    CivilianCustomer *temp =new  CivilianCustomer(-1,"",-1,-1);
+    CivilianCustomer *temp =new CivilianCustomer(-1,"",-1,-1);
     return *temp;
 }
 
@@ -231,6 +216,21 @@ void WareHouse::open()
 }
 
 
+int WareHouse::getIdNewCustomer(){
+    //returns new customer id
+    customerCounter++;
+    return customerCounter;
+}
+int WareHouse::getIdNewvolunteer(){
+    //returns new volunteer id
+    volunteerCounter++;
+    return volunteerCounter;
+}
+int WareHouse::getIdNeworder(){
+    //returns new order id
+    orderCounter++;
+    return orderCounter;
+}
 
 
 

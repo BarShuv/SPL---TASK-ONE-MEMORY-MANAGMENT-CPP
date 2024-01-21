@@ -28,7 +28,10 @@ class WareHouse {
         void close();
         void open();
         bool doParse(string file_name);
-        
+        int getIdNewCustomer();
+        int getIdNewvolunteer();
+        int getIdNeworder();
+
 
     private:
 
@@ -42,7 +45,8 @@ class WareHouse {
         vector<Customer*> customers;
         int customerCounter; //For assigning unique customer IDs
         int volunteerCounter; //For assigning unique volunteer IDs
-    
+        int orderCounter; //For assigning unique order IDs
+
 
 
 };

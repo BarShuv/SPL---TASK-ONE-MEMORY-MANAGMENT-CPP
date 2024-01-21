@@ -1,6 +1,5 @@
 #include "WareHouse.h"
 #include <iostream>
-#include "Parse.h"
 using namespace std;
 
 WareHouse* backup = nullptr;

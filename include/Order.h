@@ -28,7 +28,7 @@ class Order {
         OrderStatus getStatus() const;
         const string toString() const;
         int getDistance() const;
-
+        
     private:
         const int id;
         const int customerId;

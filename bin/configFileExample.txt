@@ -1,7 +1,0 @@
-volunteer Noya collector 2 //”Regular” collector -there is no maxOrders.
-volunteer Ibrahim collector 3 2 //LimitedCollector with limitation of 2 orders.
-volunteer Din driver 13 4 2 //LimitedDriver with maxDistance=13, distPerStep=4,maxOrders=2
-volunteer Limor driver 8 3 //”Regular” driver with maxDistance=8,distPerStep=3 without maxOrders limit
-
-customer Maya soldier 4 2 //Maya is a soldier, dist=4 time units with maxOrders=2
-customer David civilian 3 1 //David is a civilian, dist=3 time units with maxOrders=1
