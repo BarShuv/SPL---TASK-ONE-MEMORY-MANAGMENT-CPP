@@ -56,7 +56,6 @@ class AddOrder : public BaseAction {
         const int customerId;
 };
 
-/**
 
 
 class AddCustomer : public BaseAction {
@@ -143,4 +142,4 @@ class RestoreWareHouse : public BaseAction { //amit do this
     private:
 };
 
-**/
+
