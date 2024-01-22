@@ -6,11 +6,12 @@ using std::vector;
 
 WareHouse::WareHouse(const string &configFilePath) :
 
-                                                     isOpen(false),
-                                                     // initialize vectors to empty vectors
-                                                     actionsLog(), volunteers(), pendingOrders(), inProcessOrders(), completedOrders(), customers(),
-                                                     customerCounter(100), // first id for customers
-                                                     volunteerCounter(200) // first id for volunteers
+isOpen(false),
+//initialize vectors to empty vectors
+actionsLog(),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),
+customerCounter(100), //first id for customers
+volunteerCounter(200), // first id for volunteers
+orderCounter(300) //first id for orders
 {
     this->doParse(configFilePath);
 }
@@ -34,30 +35,27 @@ void WareHouse::start()
         std::stringstream ss(userInput);
         ss >> command;
 
-        // Switch based on the first word
-        if (command == "step")
-        {
-            int number_of_steps;
-            ss >> number_of_steps;
-            std::cout << "entered step " << number_of_steps << std::endl;
-            // SimulateStep simStep = SimulateStep(number_of_steps);
-            // simStep.act(*this);
-        }
-        else if (command == "order")
-        {
-            int customer_id;
-            ss >> customer_id;
-            std::cout << "entered order " << customer_id << std::endl;
-            // AddOrder addOrder = AddOrder(customer_id);
-            // addOrder.act(*this);
-        }
+    // Switch based on the first word
+    if (command == "step") {
+        int number_of_steps;
+        ss >> number_of_steps;
+        std::cout << "entered step " <<  number_of_steps << std::endl;
+        //SimulateStep simStep = SimulateStep(number_of_steps);
+        //simStep.act(*this);
+    } 
+    else if (command == "order") {
+        int customer_id;
+        ss >> customer_id;
+        std::cout << "entered order " <<  customer_id << std::endl;
+        AddOrder addOrder = AddOrder(customer_id);
+        addOrder.act(*this);
+    } 
 
-        else if (command == "customer")
-        {
-            string customer_name;
-            string customer_type;
-            int customer_distance;
-            int max_orders;
+    else if (command == "customer") {
+        string customer_name;
+        string customer_type;
+        int customer_distance;
+        int max_orders;
 
             ss >> customer_name;
             ss >> customer_type;

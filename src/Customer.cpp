@@ -65,7 +65,8 @@ using std::vector;
     Customer(id,name,locationDistance,maxOrders)
     {}
 
-    SoldierCustomer* SoldierCustomer::clone() const{
+    SoldierCustomer* SoldierCustomer::clone() const 
+    {
         //make deep copy
         return new SoldierCustomer(*this);
     }
@@ -73,7 +74,7 @@ using std::vector;
     CivilianCustomer::CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders):
     Customer(id,name,locationDistance,maxOrders)
     {}
-    CivilianCustomer* CivilianCustomer::clone() const{
+    CivilianCustomer*  CivilianCustomer::clone() const{  
         //make deep copy
         return new CivilianCustomer(*this);
 

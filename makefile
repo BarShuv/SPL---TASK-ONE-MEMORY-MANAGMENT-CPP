@@ -1,10 +1,10 @@
 all: clean compile link cleanObjAndRun
 
 compile:
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude ./src/*.cpp
+	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude ./src/*.cpp 
 
 link:
-	g++ -g -Wall -Weffc++ -std=c++11 -o ./bin/main *.o
+	g++ -g -Wall -Weffc++ -std=c++11 -o ./bin/warehouse *.o
 
 clean:
 	rm -f ./bin/*.o

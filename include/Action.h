@@ -4,6 +4,7 @@
 #include "WareHouse.h"
 using std::string;
 using std::vector;
+class WareHouse;
 
 enum class ActionStatus{
     COMPLETED, ERROR
@@ -34,6 +35,7 @@ class BaseAction{
         ActionStatus status;
 };
 
+/**
 class SimulateStep : public BaseAction { //amit do this
 
     public:
@@ -45,7 +47,7 @@ class SimulateStep : public BaseAction { //amit do this
     private:
         const int numOfSteps;
 };
-
+**/
 class AddOrder : public BaseAction {
     public:
         AddOrder(int id);
@@ -55,6 +57,8 @@ class AddOrder : public BaseAction {
     private:
         const int customerId;
 };
+
+/**
 
 
 class AddCustomer : public BaseAction {
@@ -140,3 +144,5 @@ class RestoreWareHouse : public BaseAction { //amit do this
         string toString() const override;
     private:
 };
+
+**/
