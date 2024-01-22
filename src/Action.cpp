@@ -36,7 +36,7 @@ AddOrder::AddOrder(int id) : customerId(id)
 void AddOrder::act(WareHouse &wareHouse)
 {
     Customer *a = &wareHouse.getCustomer(customerId);
-    if (a->getId() == -1 || !a->canMakeOrder())
+    if (a->getId() <= -1 || !a->canMakeOrder())
     {
         // not valid customer id or customer reached max orders
         if (a->getId() == -1)

@@ -9,9 +9,9 @@ WareHouse::WareHouse(const string &configFilePath) :
 isOpen(false),
 //initialize vectors to empty vectors
 actionsLog(),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),
-customerCounter(100), //first id for customers
-volunteerCounter(200), // first id for volunteers
-orderCounter(300) //first id for orders
+customerCounter(0), //first id for customers
+volunteerCounter(0), // first id for volunteers
+orderCounter(0) //first id for orders
 {
     this->doParse(configFilePath);
 }
@@ -164,7 +164,7 @@ Customer &WareHouse::getCustomer(int customerId) const
         }
     }
     // is this ok?
-    CivilianCustomer *temp = new CivilianCustomer(-1, "", -1, -1);
+    CivilianCustomer *temp = new CivilianCustomer(-1, "", -1, -1); // return default null customer
     return *temp;
 }
 
