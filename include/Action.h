@@ -35,7 +35,6 @@ class BaseAction{
         ActionStatus status;
 };
 
-/**
 class SimulateStep : public BaseAction { //amit do this
 
     public:
@@ -47,7 +46,6 @@ class SimulateStep : public BaseAction { //amit do this
     private:
         const int numOfSteps;
 };
-**/
 class AddOrder : public BaseAction {
     public:
         AddOrder(int id);
