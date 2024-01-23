@@ -8,8 +8,33 @@ using std::vector;
 
 PrintVolunteerStatus::PrintVolunteerStatus(int id) : volunteerId(id) {}
 
-void PrintVolunteerStatus::act(WareHouse &wareHouse) {
-    Volunteer& v = wareHouse.getVolunteer(volunteerId);
-    string str = v.toString();
+void PrintVolunteerStatus::act(WareHouse &wareHouse)
+{
+    string str = "";
+    Volunteer &v = wareHouse.getVolunteer(volunteerId);
+    if (v.getId() == -1)
+    {
+        str = "Volunteer doesn’t exist";
+        error(str);
+    }
+    else
+    {
+        complete();
+        str = v.toString();
+    }
     std::cout << str << std::endl;
+    wareHouse.addAction(this);
+}
+string PrintVolunteerStatus::toString() const
+{
+    if (getStatus() == ActionStatus::COMPLETED)
+    {
+        return "volunteerStatus " + std::to_string(volunteerId) + " COMPLETED";
+    }
+    else
+        return "Error: " + getErrorMsg();
+}
+PrintVolunteerStatus *PrintVolunteerStatus::clone() const
+{
+    return new PrintVolunteerStatus(*this);
 }

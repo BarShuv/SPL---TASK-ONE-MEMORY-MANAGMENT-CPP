@@ -40,8 +40,8 @@ void WareHouse::start()
         int number_of_steps;
         ss >> number_of_steps;
         std::cout << "entered step " <<  number_of_steps << std::endl;
-        //SimulateStep simStep = SimulateStep(number_of_steps);
-        //simStep.act(*this);
+        SimulateStep simStep = SimulateStep(number_of_steps);
+        simStep.act(*this);
     } 
     else if (command == "order") {
         int customer_id;
@@ -251,21 +251,26 @@ int WareHouse::getIdNeworder()
 
 void WareHouse::handOverOrders()
 {
+    std::vector<Order*>::iterator it = pendingOrders.begin();
     // Step 1: Hand over orders to volunteers
-    for (Order *&order : pendingOrders)
+    while (it != pendingOrders.end())
     {
+        Order* &order = *it;
         for (Volunteer *&volunteer : volunteers)
         {
             if (volunteer->canTakeOrder(*order))
             {
                 volunteer->acceptOrder(*order);
                 inProcessOrders.push_back(order);
+                pendingOrders.erase(it);
                 break; // Order handed over, move to the next order
             }
         }
+        ++it;
     }
 
     // Clear the pendingOrders list after handing over
+
     pendingOrders.clear();
 }
 

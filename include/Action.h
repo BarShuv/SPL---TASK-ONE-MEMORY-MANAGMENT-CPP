@@ -94,7 +94,7 @@ class PrintCustomerStatus: public BaseAction {
 };
 
 
-class PrintVolunteerStatus : public BaseAction { //amit do this
+class PrintVolunteerStatus : public BaseAction {
     public:
         PrintVolunteerStatus(int id);
         void act(WareHouse &wareHouse) override;
@@ -105,8 +105,8 @@ class PrintVolunteerStatus : public BaseAction { //amit do this
 };
 
 
-class PrintActionsLog : public BaseAction { //amit do this
-    public:
+class PrintActionsLog : public BaseAction { 
+        public:
         PrintActionsLog();
         void act(WareHouse &wareHouse) override;
         PrintActionsLog *clone() const override;

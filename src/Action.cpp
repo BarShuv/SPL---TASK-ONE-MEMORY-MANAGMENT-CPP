@@ -56,6 +56,16 @@ void AddOrder::act(WareHouse &wareHouse)
     }
 }
 
+string AddOrder::toString() const{
+    return "temp";
+}
+
+AddOrder* AddOrder::clone() const{
+    return new AddOrder(*this);
+}
+
+
+
 SimulateStep::SimulateStep(int numOfSteps) : numOfSteps(numOfSteps) {}
 
 void SimulateStep::act(WareHouse &wareHouse)
