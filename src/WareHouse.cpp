@@ -321,9 +321,8 @@ Order &WareHouse::getOrder(int orderId) const
             return *completedOrders[i];
         }
     }
-    // if cant find - return fake order
-    Order *temp = new Order(-1, -1, -1);
-    return *temp;
+    // if cant find - return default order
+    return *defaultOrder;
 }
 
 
