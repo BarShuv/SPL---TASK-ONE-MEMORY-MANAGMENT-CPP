@@ -43,7 +43,6 @@ void AddOrder::act(WareHouse &wareHouse)
     // not valid customer id or customer reached max orders
     if (a->getId() == -1)
     {
-        delete a;
         error("Cannot place this order");
         std::cout << "Error: " << getErrorMsg() << std::endl;
     }
@@ -147,7 +146,6 @@ void PrintOrderStatus::act(WareHouse &wareHouse) {
     Order* o = &wareHouse.getOrder(orderId);
     if (o->getId() ==-1)
     {  
-        delete o;
         //if get order function return defult order
         error("Order doesn't exsists");
         std::cout << "Error: " << getErrorMsg() << std::endl;
@@ -188,7 +186,6 @@ void PrintCustomerStatus::act(WareHouse &wareHouse){
     Customer* c = &wareHouse.getCustomer(customerId);
     if (c->getId() ==-1)
     {  
-        delete c;
         //if get customer function return defult customer delete it
         error("Customer doesn't exsists");
         std::cout << "Error: " << getErrorMsg() << std::endl;
