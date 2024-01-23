@@ -18,6 +18,8 @@ public:
     WareHouse(const string &configFilePath);
     ~WareHouse();
     WareHouse(const WareHouse &other);
+    WareHouse(WareHouse&& other) noexcept;
+    
     WareHouse &operator=(const WareHouse &other);
     void start();
     void addOrder(Order *order);
@@ -40,6 +42,7 @@ public:
     void deleteFinishedVolunteers();
     const vector<vector<Order*>> &getAllOrders() const; // needed for close.cpp
 
+
 private:
     bool isOpen;
     vector<BaseAction *> actionsLog;
@@ -51,4 +54,8 @@ private:
     int customerCounter;  // For assigning unique customer IDs
     int volunteerCounter; // For assigning unique volunteer IDs
     int orderCounter;     // For assigning unique order IDs
+    ////////////added fields  
+    CivilianCustomer *defualtCustomer;// default null customer
+    DriverVolunteer *defaultVolunteer;// default null volunteer
+    Order *defaultOrder;// default null order
 };

@@ -7,16 +7,20 @@ using std::vector;
 
 
 WareHouse::WareHouse(const string &configFilePath) :
-
 isOpen(false),
 //initialize vectors to empty vectors
 actionsLog(),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),
 customerCounter(-1), //first id for customers
 volunteerCounter(-1), // first id for volunteers
-orderCounter(-1) //first id for orders
+orderCounter(-1), //first id for orders
+//initialize to junk values the defaults - need to destruct it also
+defualtCustomer(new CivilianCustomer(-1, "", -1, -1)),
+defaultVolunteer(new DriverVolunteer(-1, "", -1, -1)),
+defaultOrder(new Order(-1, -1, -1))
 {
     this->doParse(configFilePath);
 }
+
 
 // Copy constructor
 WareHouse::WareHouse(const WareHouse &other)
@@ -41,6 +45,32 @@ WareHouse::WareHouse(const WareHouse &other)
 }
 
 
+
+WareHouse::~WareHouse(){
+    // delete actionsLog;
+    for (BaseAction *  act : actionsLog) {
+        delete act;
+    }
+    // delete volunteers;
+     for (Volunteer *  vol : volunteers) {
+        delete vol;
+    }
+    // delete pendingOrders;
+     for (Order *  ord : pendingOrders) {
+        delete ord;
+    }
+    // delete inProcessOrders;
+     for (Order *  ord : inProcessOrders) {
+        delete ord;
+    }
+    // delete completedOrders;
+     for (Order *  ord : completedOrders) {
+        delete ord;    }
+    // delete customers;
+     for (Customer *  cus : customers) {
+        delete cus;
+    }
+}
 WareHouse &WareHouse::operator=(const WareHouse &other)
 {
     if (this != &other) // Check for self-assignment
@@ -53,6 +83,7 @@ WareHouse &WareHouse::operator=(const WareHouse &other)
         inProcessOrders = other.inProcessOrders;
         completedOrders = other.completedOrders;
         customers = other.customers;
+
         customerCounter = other.customerCounter;
         volunteerCounter = other.volunteerCounter;
         orderCounter = other.orderCounter;
@@ -70,6 +101,36 @@ WareHouse &WareHouse::operator=(const WareHouse &other)
 
 
 
+//WareHouse::WareHouse(WareHouse&& other) noexcept
+    //: isOpen(other.isOpen),
+//initialize vectors to empty vectors
+//actionsLog(other.actionsLog),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),
+//customerCounter(-1), //first id for customers
+//volunteerCounter(-1), // first id for volunteers
+//orderCounter(-1) //first id for orders
+//{
+
+
+    //other.actionsLog[0] = nullptr;
+    //delete &other.actionsLog;
+
+
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void WareHouse::start()
 {
@@ -83,7 +144,7 @@ void WareHouse::start()
     while (isOpen)
     {
 
-        std::cout << "Enter a command: ";
+        //std::cout << "Enter a command: ";
         std::getline(std::cin, userInput);
 
         // Use stringstream to extract the first word
@@ -218,9 +279,8 @@ Customer &WareHouse::getCustomer(int customerId) const
             return *customers[i];
         }
     }
-    // is this ok?
-    CivilianCustomer *temp = new CivilianCustomer(-1, "", -1, -1); // return default null customer
-    return *temp;
+    // if cant find - return default customer
+    return *defualtCustomer;
 }
 
 Volunteer &WareHouse::getVolunteer(int volunteerId) const
@@ -233,10 +293,8 @@ Volunteer &WareHouse::getVolunteer(int volunteerId) const
             return *volunteers[i];
         }
     }
-    // if cant find - return fake volunteer
-    const string s = "";
-    DriverVolunteer *temp = new DriverVolunteer(-1, s, -1, -1);
-    return *temp;
+    // if cant find - return default volunteer
+    return *defaultVolunteer;
 }
 
 Order &WareHouse::getOrder(int orderId) const
@@ -267,6 +325,23 @@ Order &WareHouse::getOrder(int orderId) const
     Order *temp = new Order(-1, -1, -1);
     return *temp;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const vector<BaseAction *> &WareHouse::getActions() const
 {
@@ -410,31 +485,7 @@ const vector<vector<Order*>> &WareHouse::getAllOrders() const{
     return allOrders;
 }
 
-WareHouse::~WareHouse(){
-    // delete actionsLog;
-    for (BaseAction *  act : actionsLog) {
-        delete act;
-    }
-    // delete volunteers;
-     for (Volunteer *  vol : volunteers) {
-        delete vol;
-    }
-    // delete pendingOrders;
-     for (Order *  ord : pendingOrders) {
-        delete ord;
-    }
-    // delete inProcessOrders;
-     for (Order *  ord : inProcessOrders) {
-        delete ord;
-    }
-    // delete completedOrders;
-     for (Order *  ord : completedOrders) {
-        delete ord;    }
-    // delete customers;
-     for (Customer *  cus : customers) {
-        delete cus;
-    }
-}
+
 
 //   int main(int argc, char** argv){
 
