@@ -80,6 +80,6 @@ string DriverVolunteer::toString() const
     str << "IsBusy: " << isBusy() << std::endl;
     str << "OrderId: " << getActiveOrderId() << std::endl;
     str << "DistanceLeft:" << getDistanceLeft() << std::endl;
-    str << "ordersLeft: No Limit " << std::endl;
+    str << "ordersLeft: No Limit " ;
     return str.str();
 }

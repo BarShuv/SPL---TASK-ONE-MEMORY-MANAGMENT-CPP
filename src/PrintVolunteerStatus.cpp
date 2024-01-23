@@ -16,6 +16,8 @@ void PrintVolunteerStatus::act(WareHouse &wareHouse)
     {
         str = "Volunteer doesn’t exist";
         error(str);
+        str = "Error: Volunteer doesn’t exist";
+
     }
     else
     {

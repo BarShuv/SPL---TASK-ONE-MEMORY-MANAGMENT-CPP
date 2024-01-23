@@ -48,6 +48,6 @@ using std::vector;
          str << "IsBusy: " << isBusy() << std::endl;
          str << "OrderId: " << getActiveOrderId() << std::endl;
          str << "DistanceLeft: " << getDistanceLeft() << std::endl;
-         str << "Orders Left: " << getNumOrdersLeft() << std::endl;
+         str << "Orders Left: " << getNumOrdersLeft() ;
          return str.str();
     }

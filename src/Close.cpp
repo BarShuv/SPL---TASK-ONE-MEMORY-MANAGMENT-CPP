@@ -28,6 +28,5 @@ Close *Close::clone() const
 }
 string Close::toString() const
 {
-    // amit - I didn't find any other string that should be placed here
-    return "Closing WareHouse";
+    return "close COMPLETED";
 }

@@ -68,7 +68,7 @@ using std::vector;
          str << "IsBusy: " << isBusy() << std::endl;
          str << "OrderId: " << getActiveOrderId() << std::endl;
          str << "TimeLeft: " << getTimeLeft() << std::endl;
-         str << "ordersLeft: No Limit" << std::endl;
+         str << "ordersLeft: No Limit" ;
          return str.str();
     }
 
