@@ -46,9 +46,8 @@ void WareHouse::start()
         simStep.act(*this);
 =======
         //std::cout << "entered step " <<  number_of_steps << std::endl;
-        //SimulateStep simStep = SimulateStep(number_of_steps);
-        //simStep.act(*this);
->>>>>>> e5b7f52 (bar finish actions before tests)
+        SimulateStep* simStep =new SimulateStep(number_of_steps);
+        simStep->act(*this);
     } 
     else if (command == "order") {
         int customer_id;

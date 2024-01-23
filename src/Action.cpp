@@ -94,7 +94,7 @@ AddOrder* AddOrder::clone() const
 
 
 AddCustomer::AddCustomer(const string &customerName, const string &customerType, int distance, int maxOrders)
-    : customerName(customerName),  customerType(customerType == "solider" ? CustomerType::Soldier : CustomerType::Civilian), distance(distance), maxOrders(maxOrders)
+    : customerName(customerName),  customerType(customerType == "soldier" ? CustomerType::Soldier : CustomerType::Civilian), distance(distance), maxOrders(maxOrders)
 {}    // Set customerType based on the provided string
 
 void AddCustomer:: act(WareHouse &wareHouse) 
