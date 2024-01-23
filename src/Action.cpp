@@ -60,20 +60,27 @@ SimulateStep::SimulateStep(int numOfSteps) : numOfSteps(numOfSteps) {}
 
 void SimulateStep::act(WareHouse &wareHouse)
 {
-    // Stage 1: Hand over orders to volunteers
-    wareHouse.handOverOrders();
+    int stepsLeft = numOfSteps;
+    while (stepsLeft > 0)
+    {
+        // Reduce number of steps left
+        stepsLeft = stepsLeft -1;
+        
+        // Step 1: Hand over orders to volunteers
+        wareHouse.handOverOrders();
 
-    // Stage 2: Perform a step in the simulation
-    wareHouse.performSimulationStep();
+        // Step 2: Perform a step in the simulation
+        wareHouse.performSimulationStep();
 
-    // Stage 3: Check if volunteers have finished processing their orders
-    wareHouse.checkVolunteers();
+        // Step 3: Check if volunteers have finished processing their orders
+        wareHouse.checkVolunteers();
 
-    // Stage 4: Delete volunteers that reached maxOrders limit and finished handling their last order
-    wareHouse.deleteFinishedVolunteers();
+        // Step 4: Delete volunteers that reached maxOrders limit and finished handling their last order
+        wareHouse.deleteFinishedVolunteers();
 
-    // Complete the action
-    complete();
+        // Complete the action
+        complete();
+    }
 }
 
 std::string SimulateStep::toString() const
