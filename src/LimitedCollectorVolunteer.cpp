@@ -36,10 +36,10 @@ using std::vector;
         return ordersLeft;
     }
 
-    bool CollectorVolunteer::isDriver() const {
+    bool LimitedCollectorVolunteer::isDriver() const {
         return false;
     }
-    bool CollectorVolunteer::isCollector() const {
+    bool LimitedCollectorVolunteer::isCollector() const {
         return true;
     }
 

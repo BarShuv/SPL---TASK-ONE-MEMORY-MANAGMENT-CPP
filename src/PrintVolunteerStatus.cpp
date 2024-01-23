@@ -38,13 +38,3 @@ PrintVolunteerStatus *PrintVolunteerStatus::clone() const
 {
     return new PrintVolunteerStatus(*this);
 }
-
-string PrintVolunteerStatus::toString() const
-{
-    return "";
-}
-
-PrintVolunteerStatus* PrintVolunteerStatus::clone()  const
-{
-    return new PrintVolunteerStatus(*this);
-}

@@ -64,11 +64,11 @@ void DriverVolunteer::step()
     }
 }
 
-bool CollectorVolunteer::isDriver() const
+bool DriverVolunteer::isDriver() const
 {
     return true;
 }
-bool CollectorVolunteer::isCollector() const
+bool DriverVolunteer::isCollector() const
 {
     return false;
 }

@@ -17,6 +17,8 @@ class WareHouse
 public:
     WareHouse(const string &configFilePath);
     ~WareHouse();
+    WareHouse(const WareHouse &other);
+    WareHouse &operator=(const WareHouse &other);
     void start();
     void addOrder(Order *order);
     void addAction(BaseAction *action);
