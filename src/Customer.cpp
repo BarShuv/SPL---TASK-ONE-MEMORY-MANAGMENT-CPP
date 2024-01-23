@@ -38,6 +38,11 @@ using std::vector;
         return ordersMade;
     }
 
+    int Customer ::getOrdersLeft() const{
+        return maxOrders-ordersMade;
+    }
+
+
     bool Customer::canMakeOrder() const
     {
         return ordersMade < maxOrders;
@@ -58,7 +63,6 @@ using std::vector;
          return -1; // Customer reached max orders
      }
  } 
-
 
 
     SoldierCustomer::SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders):

@@ -42,23 +42,63 @@ OrderStatus Order::getStatus() const {
     return distance;
  }
 
+
+string Order::getStatusStr() const
+{
+    //returns string of the status
+    string orderStatusStr = "";
+    if(status == OrderStatus::PENDING)
+    {
+        orderStatusStr = "Pending";
+    }
+    else if(status == OrderStatus::COLLECTING)
+    {
+        orderStatusStr = "Collecting";
+    }
+    else if(status == OrderStatus::DELIVERING)
+    {
+        orderStatusStr = "Delivering";
+    }
+    else if(status == OrderStatus::COMPLETED)
+    {
+        orderStatusStr = "Completed";
+    }
+    return orderStatusStr;
+}
+
+
+
+
+
 const string Order::toString() const {
     std::stringstream ss;
-    ss << "Order Information:" << std::endl;
-    ss << "ID: " << id << std::endl;
-    ss << "Customer ID: " << customerId << std::endl;
-    ss << "Distance: " << distance << std::endl;
-    ss << "Collector ID: " << collectorId << std::endl;
-    ss << "Driver ID: " << driverId << std::endl;
-    ss << "Status: " << static_cast<int>(status) << std::endl;
+    string orderStatusStr = getStatusStr();
+    string collectorIdStr = std::to_string(collectorId);
+    string driverIdStr = std::to_string(driverId);
+
+
+
+    if (collectorId==NO_VOLUNTEER){
+        collectorIdStr = "None";
+    }
+    if (driverId==NO_VOLUNTEER){
+        driverIdStr = "None";
+    }
+
+    ss << "OrderId: " << id << std::endl;
+    ss << "OrderStatus: " << orderStatusStr<< std::endl;
+    ss << "CustomerID: " << customerId << std::endl;
+    ss << "Collector: " << collectorIdStr << std::endl;
+    ss << "Driver: " << driverIdStr ;
 
     return ss.str();
 }
 
  //   int main(int argc, char** argv){
-   //     Order o =  Order(2222,3333,60);
-//
+ //       Order o =  Order(2222,3333,60);
+ //       o.setCollectorId(34634654);
+  //      o.setDriverId(443534);
   //      std::cout << o.toString()<<std::endl;
 
     //    return 0;
-    //}
+   // }

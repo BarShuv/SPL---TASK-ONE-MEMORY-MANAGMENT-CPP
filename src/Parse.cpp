@@ -38,16 +38,16 @@ bool WareHouse:: doParse(std::string file_name){
                     //corresponding variables filled with the parsed values
                     //std::cout << customerName << customerType<< distance<< maxOrders<< std::endl;
                     ///////////////////////////////////////////////////////////////
-                    this->customerCounter++;
+                    
                     if (customerType == "civilian")
                     {
-                        CivilianCustomer* cust = new CivilianCustomer(customerCounter, customerName, distance, maxOrders);
+                        CivilianCustomer* cust = new CivilianCustomer(this->getIdNewCustomer(), customerName, distance, maxOrders);
                         this->addCustomer(cust);
 
                     }
                     else
                     {
-                        SoldierCustomer* cust = new SoldierCustomer(customerCounter, customerName, distance, maxOrders);
+                        SoldierCustomer* cust = new SoldierCustomer(this->getIdNewCustomer(), customerName, distance, maxOrders);
                         this->addCustomer(cust);
                     }
                 } 
@@ -60,12 +60,11 @@ bool WareHouse:: doParse(std::string file_name){
         else if (firstWord == "volunteer") {
                 // Extract volunteer details and add them to your system
                 if (iss >> volunteerName >> volunteerType) {
-                    this->volunteerCounter++;
                     if (volunteerType == "collector")
                     {
                         iss >> coolDown;
                         //std::cout <<volunteerName << volunteerType <<coolDown<< "it is" << std::endl;    
-                        CollectorVolunteer* vol = new CollectorVolunteer(volunteerCounter, volunteerName, coolDown);
+                        CollectorVolunteer* vol = new CollectorVolunteer(this->getIdNewvolunteer(), volunteerName, coolDown);
                         this->addVolunteer(vol);
                     }
 
@@ -73,21 +72,21 @@ bool WareHouse:: doParse(std::string file_name){
                     {
                         iss >> coolDown >> maxOrdersCollector;
                         //std::cout <<volunteerName << volunteerType <<coolDown<<maxOrdersCollector<< " it is" << std::endl;                        
-                        LimitedCollectorVolunteer* vol = new LimitedCollectorVolunteer(volunteerCounter, volunteerName, coolDown,maxOrdersCollector);
+                        LimitedCollectorVolunteer* vol = new LimitedCollectorVolunteer(this->getIdNewvolunteer(), volunteerName, coolDown,maxOrdersCollector);
                         this->addVolunteer(vol);
                     }
                     if (volunteerType == "driver")
                     {
                         iss >> maxDistance >> distance_per_step;
                         //std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< " it is" << std::endl;                        
-                        DriverVolunteer* vol = new DriverVolunteer(volunteerCounter, volunteerName, maxDistance, distance_per_step);
+                        DriverVolunteer* vol = new DriverVolunteer(this->getIdNewvolunteer(), volunteerName, maxDistance, distance_per_step);
                         this->addVolunteer(vol);
                     }
                     if (volunteerType == "limited_driver")
                     {
                         iss >> maxDistance >> distance_per_step>>maxOrdersDriver;
                         //std::cout <<volunteerName << volunteerType <<maxDistance<<distance_per_step<< maxOrdersDriver<<" it is" << std::endl;                        
-                        LimitedDriverVolunteer* vol = new LimitedDriverVolunteer(volunteerCounter, volunteerName, maxDistance, distance_per_step,maxOrdersDriver);
+                        LimitedDriverVolunteer* vol = new LimitedDriverVolunteer(this->getIdNewvolunteer(), volunteerName, maxDistance, distance_per_step,maxOrdersDriver);
                         this->addVolunteer(vol);
                     }
                     

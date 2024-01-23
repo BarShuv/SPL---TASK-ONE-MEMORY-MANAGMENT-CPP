@@ -15,6 +15,7 @@ class Customer {
         int getMaxOrders() const; //Returns maxOrders
         int getLocationDistance() const; //Returns locationDistance
         int getNumOrders() const; //Returns num of orders the customer has made so far
+        int getOrdersLeft() const; //Return orders ledt
         bool canMakeOrder() const; //Returns true if the customer didn't reach max orders
         const vector<int> &getOrdersIds() const;
         int addOrder(int orderId); //return OrderId if order was added successfully, -1 otherwise

@@ -9,9 +9,10 @@ WareHouse::WareHouse(const string &configFilePath) :
 isOpen(false),
 //initialize vectors to empty vectors
 actionsLog(),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),
-customerCounter(0), //first id for customers
-volunteerCounter(0), // first id for volunteers
-orderCounter(0) //first id for orders
+//initialize to -1 because we increment the id by 1 and than gives it to customer
+customerCounter(-1), //first id for customers
+volunteerCounter(-1), // first id for volunteers
+orderCounter(-1) //first id for orders
 {
     this->doParse(configFilePath);
 }
@@ -28,7 +29,7 @@ void WareHouse::start()
     while (isOpen)
     {
 
-        std::cout << "Enter a command: ";
+        //std::cout << "Enter a command: ";
         std::getline(std::cin, userInput);
 
         // Use stringstream to extract the first word
@@ -39,16 +40,27 @@ void WareHouse::start()
     if (command == "step") {
         int number_of_steps;
         ss >> number_of_steps;
+<<<<<<< HEAD
         std::cout << "entered step " <<  number_of_steps << std::endl;
         SimulateStep simStep = SimulateStep(number_of_steps);
         simStep.act(*this);
+=======
+        //std::cout << "entered step " <<  number_of_steps << std::endl;
+        //SimulateStep simStep = SimulateStep(number_of_steps);
+        //simStep.act(*this);
+>>>>>>> e5b7f52 (bar finish actions before tests)
     } 
     else if (command == "order") {
         int customer_id;
         ss >> customer_id;
-        std::cout << "entered order " <<  customer_id << std::endl;
-        AddOrder addOrder = AddOrder(customer_id);
-        addOrder.act(*this);
+        //std::cout << "entered order " <<  customer_id << std::endl;
+        AddOrder *addOrder = new AddOrder(customer_id);
+        addOrder->act(*this);
+        //for (std::vector<int>::size_type i = 0; i < pendingOrders.size(); i++) {
+           // std::cout << pendingOrders[i]->toString()<<std::endl;
+        //}
+        //std::cout <<addOrder.toString()<<std::endl;
+
     } 
 
     else if (command == "customer") {
@@ -62,62 +74,62 @@ void WareHouse::start()
             ss >> customer_distance;
             ss >> max_orders;
 
-            std::cout << "entered customer " << customer_name << std::endl;
-            // AddCustomer addCustomer = AddCustomer(customer_name,customer_type,customer_distance,max_orders);
-            // addCustomer.act(*this);
+            //std::cout << "entered customer " << customer_name << std::endl;
+            AddCustomer *addCustomer = new AddCustomer(customer_name,customer_type,customer_distance,max_orders);
+            addCustomer->act(*this);
         }
 
         else if (command == "orderStatus")
         {
             int order_id;
             ss >> order_id;
-            std::cout << "entered orderStatus " << order_id << std::endl;
-            // PrintOrderStatus printOrder = PrintOrderStatus(order_id);
-            // printOrder.act(*this);
+            //std::cout << "entered orderStatus " << order_id << std::endl;
+            PrintOrderStatus* printOrder = new PrintOrderStatus(order_id);
+            printOrder->act(*this);
         }
 
         else if (command == "customerStatus")
         {
             int customer_id;
             ss >> customer_id;
-            std::cout << "entered customerStatus " << customer_id << std::endl;
-            // PrintCustomerStatus printCustomer = PrintCustomerStatus(customer_id);
-            // printCustomer.act(*this);
+            //std::cout << "entered customerStatus " << customer_id << std::endl;
+            PrintCustomerStatus* printCustomer = new PrintCustomerStatus(customer_id);
+            printCustomer->act(*this);
         }
 
         else if (command == "volunteerStatus")
         {
             int volunteer_id;
             ss >> volunteer_id;
-            std::cout << "entered volunteerStatus " << volunteer_id << std::endl;
-            // PrintVolunteerStatus printvolunteer = PrintVolunteerStatus(volunteer_id);
-            // printvolunteer.act(*this);
+            //std::cout << "entered volunteerStatus " << volunteer_id << std::endl;
+            PrintVolunteerStatus* printvolunteer = new PrintVolunteerStatus(volunteer_id);
+            printvolunteer->act(*this);
         }
 
         else if (command == "log")
         {
-            std::cout << "entered log " << std::endl;
+            //std::cout << "entered log " << std::endl;
             // PrintActionsLog log = PrintActionsLog();
             // log.act(*this);
         }
 
         else if (command == "close")
         {
-            std::cout << "entered close " << std::endl;
+            //std::cout << "entered close " << std::endl;
             // Close close = Close();
             // close.act(*this);
         }
 
         else if (command == "backup")
         {
-            std::cout << "entered backup " << std::endl;
+            //std::cout << "entered backup " << std::endl;
             // BackupWareHouse backup = BackupWareHouse();
             // backup.act(*this);
         }
 
         else if (command == "restore")
         {
-            std::cout << "entered restore " << std::endl;
+            //std::cout << "entered restore " << std::endl;
             // RestoreWareHouse restore = RestoreWareHouse();
             // restore.act(*this);
         }
@@ -126,6 +138,7 @@ void WareHouse::start()
         {
             std::cout << "Unknown command." << std::endl;
         }
+        
     }
 }
 
@@ -168,9 +181,10 @@ Customer &WareHouse::getCustomer(int customerId) const
     return *temp;
 }
 
+
 Volunteer &WareHouse::getVolunteer(int volunteerId) const
 {
-    // returns a reference to the volunteer if exists in the customers vector , nullptr otherwise
+    // returns a reference to the volunteer if exists in the customers vector , defult otherwise
     for (vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++)
     {
         if (volunteers[i]->getId() == volunteerId)
