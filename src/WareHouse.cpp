@@ -2,7 +2,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <algorithm> // for std::copy
 using std::vector;
+
 
 WareHouse::WareHouse(const string &configFilePath) :
 
@@ -15,6 +17,59 @@ orderCounter(0) //first id for orders
 {
     this->doParse(configFilePath);
 }
+
+// Copy constructor
+WareHouse::WareHouse(const WareHouse &other)
+    : isOpen(other.isOpen),
+      actionsLog(other.actionsLog.size()),
+      volunteers(other.volunteers.size()),
+      pendingOrders(other.pendingOrders.size()),
+      inProcessOrders(other.inProcessOrders.size()),
+      completedOrders(other.completedOrders.size()),
+      customers(other.customers.size()),
+      customerCounter(other.customerCounter),
+      volunteerCounter(other.volunteerCounter),
+      orderCounter(other.orderCounter)
+{
+    // Deep copy for vectors
+    std::copy(other.actionsLog.begin(), other.actionsLog.end(), actionsLog.begin());
+    std::copy(other.volunteers.begin(), other.volunteers.end(), volunteers.begin());
+    std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), pendingOrders.begin());
+    std::copy(other.inProcessOrders.begin(), other.inProcessOrders.end(), inProcessOrders.begin());
+    std::copy(other.completedOrders.begin(), other.completedOrders.end(), completedOrders.begin());
+    std::copy(other.customers.begin(), other.customers.end(), customers.begin());
+}
+
+
+WareHouse &WareHouse::operator=(const WareHouse &other)
+{
+    if (this != &other) // Check for self-assignment
+    {
+        // Copy data from 'other' to 'this'
+        isOpen = other.isOpen;
+        actionsLog = other.actionsLog;
+        volunteers = other.volunteers;
+        pendingOrders = other.pendingOrders;
+        inProcessOrders = other.inProcessOrders;
+        completedOrders = other.completedOrders;
+        customers = other.customers;
+        customerCounter = other.customerCounter;
+        volunteerCounter = other.volunteerCounter;
+        orderCounter = other.orderCounter;
+
+        // Deep copy for vectors
+        std::copy(other.actionsLog.begin(), other.actionsLog.end(), std::back_inserter(actionsLog));
+        std::copy(other.volunteers.begin(), other.volunteers.end(), std::back_inserter(volunteers));
+        std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), std::back_inserter(pendingOrders));
+        std::copy(other.inProcessOrders.begin(), other.inProcessOrders.end(), std::back_inserter(inProcessOrders));
+        std::copy(other.completedOrders.begin(), other.completedOrders.end(), std::back_inserter(completedOrders));
+        std::copy(other.customers.begin(), other.customers.end(), std::back_inserter(customers));
+    }
+    return *this;
+}
+
+
+
 
 void WareHouse::start()
 {
