@@ -35,12 +35,19 @@ using std::vector;
         ordersLeft--;
     }
 
+    bool CollectorVolunteer::isDriver() const {
+        return true;
+    }
+    bool CollectorVolunteer::isCollector() const {
+        return false;
+    }
+
     string LimitedDriverVolunteer::toString() const {
          std::stringstream str;
-         str << "Volunteer ID:" << getId() << std::endl;
-         str << "Is busy:" << isBusy() << std::endl;
-         str << "Order ID:" << getActiveOrderId() << std::endl;
-         str << "Distance left:" << getDistanceLeft() << std::endl;
-         str << "Orders Left:" << getNumOrdersLeft() << std::endl;
+         str << "VolunteerID: " << getId() << std::endl;
+         str << "IsBusy: " << isBusy() << std::endl;
+         str << "OrderId: " << getActiveOrderId() << std::endl;
+         str << "DistanceLeft: " << getDistanceLeft() << std::endl;
+         str << "Orders Left: " << getNumOrdersLeft() << std::endl;
          return str.str();
     }

@@ -131,25 +131,14 @@ string AddCustomer::toString() const
     }
 }
 
-<<<<<<< HEAD
-string AddOrder::toString() const{
-    return "temp";
-}
-
-AddOrder* AddOrder::clone() const{
-    return new AddOrder(*this);
-=======
 AddCustomer* AddCustomer::clone() const 
 {
     //cloning the AddOrder action
     return new AddCustomer(*this);
->>>>>>> e5b7f52 (bar finish actions before tests)
 }
 
 
 
-<<<<<<< HEAD
-=======
 /////////////////////////////////////////////print order ststus actions
 PrintOrderStatus::PrintOrderStatus(int id):orderId(id)
 {} // construct object with integer given order id
@@ -252,7 +241,6 @@ string PrintCustomerStatus::toString() const
 
 
 
->>>>>>> e5b7f52 (bar finish actions before tests)
 SimulateStep::SimulateStep(int numOfSteps) : numOfSteps(numOfSteps) {}
 
 void SimulateStep::act(WareHouse &wareHouse)

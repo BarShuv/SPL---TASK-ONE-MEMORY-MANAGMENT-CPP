@@ -16,6 +16,7 @@ class WareHouse
 
 public:
     WareHouse(const string &configFilePath);
+    ~WareHouse();
     void start();
     void addOrder(Order *order);
     void addAction(BaseAction *action);
@@ -35,6 +36,7 @@ public:
     void performSimulationStep();
     void checkVolunteers();
     void deleteFinishedVolunteers();
+    const vector<vector<Order*>> &getAllOrders() const; // needed for close.cpp
 
 private:
     bool isOpen;

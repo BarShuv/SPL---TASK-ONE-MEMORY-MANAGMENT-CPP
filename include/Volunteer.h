@@ -18,11 +18,11 @@ class Volunteer {
         virtual bool hasOrdersLeft() const = 0; // Signal whether the volunteer didn't reach orders limit,Always true for CollectorVolunteer and DriverVolunteer
         virtual bool canTakeOrder(const Order &order) const = 0; // Signal if the volunteer can take the order.      
         virtual void acceptOrder(const Order &order) = 0; // Prepare for new order(Reset activeOrderId,TimeLeft,DistanceLeft,OrdersLeft depends on the volunteer type)
-                
         virtual void step() = 0; //Simulate volunteer step,if the volunteer finished the order, transfer activeOrderId to completedOrderId
-
         virtual string toString() const = 0;
         virtual Volunteer* clone() const = 0; //Return a copy of the volunteer
+        virtual bool isDriver() const = 0;
+        virtual bool isCollector() const = 0;
         virtual ~Volunteer()=default;
 
 
@@ -49,6 +49,8 @@ class CollectorVolunteer: public Volunteer {
         bool hasOrdersLeft() const override;
         bool canTakeOrder(const Order &order) const override;
         void acceptOrder(const Order &order) override;
+        virtual bool isDriver() const override;
+        virtual bool isCollector() const override;
         string toString() const override;
     
     private:
@@ -68,6 +70,8 @@ class LimitedCollectorVolunteer: public CollectorVolunteer {
         int getMaxOrders() const;
         int getNumOrdersLeft() const;
         string toString() const override;
+        virtual bool isDriver() const override;
+        virtual bool isCollector() const override;
     
     private:
         const int maxOrders; // The number of orders the volunteer can process in the whole simulation
@@ -88,6 +92,8 @@ class DriverVolunteer: public Volunteer {
         bool canTakeOrder(const Order &order) const override; // Signal if the volunteer is not busy and the order is within the maxDistance
         void acceptOrder(const Order &order) override; // Assign distanceLeft to order's distance
         void step() override; // Decrease distanceLeft by distancePerStep
+        virtual bool isDriver() const override;
+        virtual bool isCollector() const override;
         string toString() const override;
 
     private:
@@ -106,6 +112,8 @@ class LimitedDriverVolunteer: public DriverVolunteer {
         bool hasOrdersLeft() const override;
         bool canTakeOrder(const Order &order) const override; // Signal if the volunteer is not busy, the order is within the maxDistance.
         void acceptOrder(const Order &order) override; // Assign distanceLeft to order's distance and decrease ordersLeft
+        virtual bool isDriver() const override;
+        virtual bool isCollector() const override;
         string toString() const override;
 
     private:

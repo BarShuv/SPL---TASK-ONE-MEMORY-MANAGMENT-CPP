@@ -49,6 +49,13 @@ using std::vector;
         return !isBusy(); // Collector can take an order if not busy
     }
 
+    bool CollectorVolunteer::isDriver() const {
+        return false;
+    }
+    bool CollectorVolunteer::isCollector() const {
+        return true;
+    }
+
     // Prepare for new order(Reset activeOrderId,TimeLeft,DistanceLeft,OrdersLeft depends on the volunteer type)
     void CollectorVolunteer::acceptOrder(const Order &order) {
         activeOrderId = order.getId();
@@ -57,10 +64,11 @@ using std::vector;
     
     string CollectorVolunteer::toString() const  {
          std::stringstream str;
-         str << "Volunteer ID:" << getId() << std::endl;
-         str << "Is busy:" << isBusy() << std::endl;
-         str << "Order ID:" << getActiveOrderId() << std::endl;
-         str << "Time left:" << getTimeLeft() << std::endl;
+         str << "VolunteerID: " << getId() << std::endl;
+         str << "IsBusy: " << isBusy() << std::endl;
+         str << "OrderId: " << getActiveOrderId() << std::endl;
+         str << "TimeLeft: " << getTimeLeft() << std::endl;
+         str << "ordersLeft: No Limit" << std::endl;
          return str.str();
     }
 
