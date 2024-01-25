@@ -8,18 +8,15 @@ Close::Close() {}
 
 void Close::act(WareHouse &wareHouse)
 {
-    wareHouse.close();
     std::stringstream str;
-    vector<vector<Order *>> allOrders = wareHouse.getAllOrders();
-    for (vector<Order *> orderVector : allOrders)
+    vector<Order *> allOrders = wareHouse.getAllOrders();
+    for (Order *order : allOrders)
     {
-        for (Order *order : orderVector)
-        {
-            str << "OrderID: " << order->getId();
-            str << ", CustomerID: " << order->getCustomerId();
-            str << ", Status: " << (order->getStatusStr()) << std::endl;
-        }
+        str << "OrderID: " << order->getId();
+        str << ", CustomerID: " << order->getCustomerId();
+        str << ", Status: " << (order->getStatusStr()) << std::endl;
     }
+    wareHouse.close();
 }
 
 Close *Close::clone() const

@@ -40,7 +40,7 @@ public:
     void performSimulationStep();
     void checkVolunteers();
     void deleteFinishedVolunteers();
-    const vector<vector<Order*>> &getAllOrders() const; // needed for close.cpp
+    const vector<Order *> getAllOrders() const; // needed for close.cpp
 
 
 private:

@@ -5,7 +5,6 @@
 #include <algorithm> // for std::copy
 using std::vector;
 
-
 WareHouse::WareHouse(const string &configFilePath) :
 isOpen(false),
 //initialize vectors to empty vectors
@@ -45,7 +44,6 @@ WareHouse::WareHouse(const WareHouse &other)
 }
 
 
-
 WareHouse::~WareHouse(){
     // delete actionsLog;
     for (BaseAction *  act : actionsLog) {
@@ -77,12 +75,6 @@ WareHouse &WareHouse::operator=(const WareHouse &other)
     {
         // Copy data from 'other' to 'this'
         isOpen = other.isOpen;
-        actionsLog = other.actionsLog;
-        volunteers = other.volunteers;
-        pendingOrders = other.pendingOrders;
-        inProcessOrders = other.inProcessOrders;
-        completedOrders = other.completedOrders;
-        customers = other.customers;
 
         customerCounter = other.customerCounter;
         volunteerCounter = other.volunteerCounter;
@@ -151,35 +143,38 @@ void WareHouse::start()
         std::stringstream ss(userInput);
         ss >> command;
 
-    // Switch based on the first word
-    if (command == "step") {
-        int number_of_steps;
-        ss >> number_of_steps;
-        //std::cout << "entered step " <<  number_of_steps << std::endl;
-        SimulateStep* simStep =new SimulateStep(number_of_steps);
-        simStep->act(*this);
-    } 
-    else if (command == "order") {
-        int customer_id;
-        ss >> customer_id;
-        //std::cout << "entered order " <<  customer_id << std::endl;
-        AddOrder* addOrder = new AddOrder(customer_id);
-        addOrder->act(*this);
-    } 
+        // Switch based on the first word
+        if (command == "step")
+        {
+            int number_of_steps;
+            ss >> number_of_steps;
+            // std::cout << "entered step " <<  number_of_steps << std::endl;
+            SimulateStep *simStep = new SimulateStep(number_of_steps);
+            simStep->act(*this);
+        }
+        else if (command == "order")
+        {
+            int customer_id;
+            ss >> customer_id;
+            // std::cout << "entered order " <<  customer_id << std::endl;
+            AddOrder *addOrder = new AddOrder(customer_id);
+            addOrder->act(*this);
+        }
 
-    else if (command == "customer") {
-        string customer_name;
-        string customer_type;
-        int customer_distance;
-        int max_orders;
+        else if (command == "customer")
+        {
+            string customer_name;
+            string customer_type;
+            int customer_distance;
+            int max_orders;
 
             ss >> customer_name;
             ss >> customer_type;
             ss >> customer_distance;
             ss >> max_orders;
 
-            //std::cout << "entered customer " << customer_name << std::endl;
-            AddCustomer* addCustomer = new AddCustomer(customer_name,customer_type,customer_distance,max_orders);
+            // std::cout << "entered customer " << customer_name << std::endl;
+            AddCustomer *addCustomer = new AddCustomer(customer_name, customer_type, customer_distance, max_orders);
             addCustomer->act(*this);
         }
 
@@ -187,8 +182,8 @@ void WareHouse::start()
         {
             int order_id;
             ss >> order_id;
-            //std::cout << "entered orderStatus " << order_id << std::endl;
-            PrintOrderStatus* printOrder = new PrintOrderStatus(order_id);
+            // std::cout << "entered orderStatus " << order_id << std::endl;
+            PrintOrderStatus *printOrder = new PrintOrderStatus(order_id);
             printOrder->act(*this);
         }
 
@@ -196,8 +191,8 @@ void WareHouse::start()
         {
             int customer_id;
             ss >> customer_id;
-            //std::cout << "entered customerStatus " << customer_id << std::endl;
-            PrintCustomerStatus* printCustomer = new PrintCustomerStatus(customer_id);
+            // std::cout << "entered customerStatus " << customer_id << std::endl;
+            PrintCustomerStatus *printCustomer = new PrintCustomerStatus(customer_id);
             printCustomer->act(*this);
         }
 
@@ -205,37 +200,37 @@ void WareHouse::start()
         {
             int volunteer_id;
             ss >> volunteer_id;
-            //std::cout << "entered volunteerStatus " << volunteer_id << std::endl;
-            PrintVolunteerStatus* printvolunteer = new PrintVolunteerStatus(volunteer_id);
+            // std::cout << "entered volunteerStatus " << volunteer_id << std::endl;
+            PrintVolunteerStatus *printvolunteer = new PrintVolunteerStatus(volunteer_id);
             printvolunteer->act(*this);
         }
 
         else if (command == "log")
         {
-            //std::cout << "entered log " << std::endl;
-            PrintActionsLog* log = new PrintActionsLog();
+            // std::cout << "entered log " << std::endl;
+            PrintActionsLog *log = new PrintActionsLog();
             log->act(*this);
         }
 
         else if (command == "close")
         {
-            //std::cout << "entered close " << std::endl;
-            Close* close = new Close();
+            // std::cout << "entered close " << std::endl;
+            Close *close = new Close();
             close->act(*this);
         }
 
         else if (command == "backup")
         {
             std::cout << "entered backup " << std::endl;
-            //BackupWareHouse* backup = new BackupWareHouse();
-            //backup->act(*this);
+            // BackupWareHouse* backup = new BackupWareHouse();
+            // backup->act(*this);
         }
 
         else if (command == "restore")
         {
             std::cout << "entered restore " << std::endl;
-            //RestoreWareHouse* restore =new RestoreWareHouse();
-            //restore->act(*this);
+            // RestoreWareHouse* restore =new RestoreWareHouse();
+            // restore->act(*this);
         }
 
         else
@@ -379,11 +374,11 @@ int WareHouse::getIdNeworder()
 
 void WareHouse::handOverOrders()
 {
-    std::vector<Order*>::iterator it = pendingOrders.begin();
+    std::vector<Order *>::iterator it = pendingOrders.begin();
     // Step 1: Hand over orders to volunteers
-    while (it != pendingOrders.end())
+    while (it != pendingOrders.end() && pendingOrders.size() > 0) 
     {
-        Order* &order = *it;
+        Order *&order = *it;
         for (Volunteer *&volunteer : volunteers)
         {
             if (volunteer->canTakeOrder(*order) && (volunteer->isCollector()))
@@ -398,11 +393,12 @@ void WareHouse::handOverOrders()
         ++it;
     }
 
+    std::cout << "done 1";
 
-     std::vector<Order*>::iterator it2 = inProcessOrders.begin();
-    while (it2 != inProcessOrders.end())
+    std::vector<Order *>::iterator it2 = inProcessOrders.begin();
+    while (it2 != inProcessOrders.end()  && pendingOrders.size() > 0)
     {
-        Order* &order = *it2; 
+        Order *&order = *it2;
         for (Volunteer *&volunteer : volunteers)
         {
             if (volunteer->canTakeOrder(*order) && volunteer->isDriver())
@@ -416,7 +412,6 @@ void WareHouse::handOverOrders()
         }
         ++it;
     }
-
 }
 
 void WareHouse::performSimulationStep()
@@ -478,13 +473,51 @@ void WareHouse::deleteFinishedVolunteers()
     }
 }
 
+const vector<Order *> WareHouse::getAllOrders() const
+{
+    vector<Order *> allOrders;
 
-const vector<vector<Order*>> &WareHouse::getAllOrders() const{
-    vector<vector<Order*>> allOrders{ pendingOrders,inProcessOrders,completedOrders };
+    // Append orders from all three lists
+    allOrders.insert(allOrders.end(), pendingOrders.begin(), pendingOrders.end());
+    allOrders.insert(allOrders.end(), inProcessOrders.begin(), inProcessOrders.end());
+    allOrders.insert(allOrders.end(), completedOrders.begin(), completedOrders.end());
+
     return allOrders;
 }
 
-
+WareHouse::~WareHouse()
+{
+    // delete actionsLog;
+    for (BaseAction *act : actionsLog)
+    {
+        delete act;
+    }
+    // delete volunteers;
+    for (Volunteer *vol : volunteers)
+    {
+        delete vol;
+    }
+    // delete pendingOrders;
+    for (Order *ord : pendingOrders)
+    {
+        delete ord;
+    }
+    // delete inProcessOrders;
+    for (Order *ord : inProcessOrders)
+    {
+        delete ord;
+    }
+    // delete completedOrders;
+    for (Order *ord : completedOrders)
+    {
+        delete ord;
+    }
+    // delete customers;
+    for (Customer *cus : customers)
+    {
+        delete cus;
+    }
+}
 
 //   int main(int argc, char** argv){
 
