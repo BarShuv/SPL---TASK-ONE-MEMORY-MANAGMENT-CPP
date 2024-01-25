@@ -44,31 +44,6 @@ WareHouse::WareHouse(const WareHouse &other)
 }
 
 
-WareHouse::~WareHouse(){
-    // delete actionsLog;
-    for (BaseAction *  act : actionsLog) {
-        delete act;
-    }
-    // delete volunteers;
-     for (Volunteer *  vol : volunteers) {
-        delete vol;
-    }
-    // delete pendingOrders;
-     for (Order *  ord : pendingOrders) {
-        delete ord;
-    }
-    // delete inProcessOrders;
-     for (Order *  ord : inProcessOrders) {
-        delete ord;
-    }
-    // delete completedOrders;
-     for (Order *  ord : completedOrders) {
-        delete ord;    }
-    // delete customers;
-     for (Customer *  cus : customers) {
-        delete cus;
-    }
-}
 WareHouse &WareHouse::operator=(const WareHouse &other)
 {
     if (this != &other) // Check for self-assignment
