@@ -19,8 +19,7 @@ using std::vector;
     }
 
     bool LimitedCollectorVolunteer::canTakeOrder(const Order &order) const {
-        //return CollectorVolunteer::canTakeOrder(order) && ordersLeft > 0;
-        return ordersLeft > 0;
+        return CollectorVolunteer::canTakeOrder(order) && ordersLeft > 0;
     }
 
     void LimitedCollectorVolunteer::acceptOrder(const Order &order) {
