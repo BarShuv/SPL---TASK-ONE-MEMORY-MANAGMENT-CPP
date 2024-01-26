@@ -19,8 +19,9 @@ public:
     ~WareHouse();
     WareHouse(const WareHouse &other);
     WareHouse(WareHouse&& other) noexcept;
-    
     WareHouse &operator=(const WareHouse &other);
+    WareHouse &operator=(WareHouse&& other) noexcept;
+
     void start();
     void addOrder(Order *order);
     void addAction(BaseAction *action);
@@ -54,7 +55,7 @@ private:
     int customerCounter;  // For assigning unique customer IDs
     int volunteerCounter; // For assigning unique volunteer IDs
     int orderCounter;     // For assigning unique order IDs
-    ////////////added fields  
+    ////////////added  
     CivilianCustomer *defualtCustomer;// default null customer
     DriverVolunteer *defaultVolunteer;// default null volunteer
     Order *defaultOrder;// default null order

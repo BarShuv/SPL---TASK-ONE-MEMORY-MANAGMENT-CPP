@@ -27,11 +27,12 @@ using std::vector;
     }
 
     bool LimitedDriverVolunteer::canTakeOrder(const Order &order) const {
-        return DriverVolunteer::canTakeOrder(order) && ordersLeft > 0;
+        //return DriverVolunteer::canTakeOrder(order) && ordersLeft > 0;
+        return ordersLeft > 0;
     }
 
     void LimitedDriverVolunteer::acceptOrder(const Order &order) {
-        DriverVolunteer::acceptOrder(order);
+        //DriverVolunteer::acceptOrder(order);
         ordersLeft--;
     }
 

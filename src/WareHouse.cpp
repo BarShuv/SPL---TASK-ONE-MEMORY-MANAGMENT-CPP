@@ -17,6 +17,8 @@ defualtCustomer(new CivilianCustomer(-1, "", -1, -1)),
 defaultVolunteer(new DriverVolunteer(-1, "", -1, -1)),
 defaultOrder(new Order(-1, -1, -1))
 {
+
+
     this->doParse(configFilePath);
 }
 
@@ -68,21 +70,72 @@ WareHouse &WareHouse::operator=(const WareHouse &other)
 
 
 
-//WareHouse::WareHouse(WareHouse&& other) noexcept
-    //: isOpen(other.isOpen),
-//initialize vectors to empty vectors
-//actionsLog(other.actionsLog),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),
-//customerCounter(-1), //first id for customers
-//volunteerCounter(-1), // first id for volunteers
-//orderCounter(-1) //first id for orders
-//{
+WareHouse::WareHouse(WareHouse&& other) noexcept
+    :   isOpen(other.isOpen) ,
+    actionsLog(),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),
+customerCounter(other.customerCounter), 
+volunteerCounter(other.volunteerCounter), 
+orderCounter(other.orderCounter), 
+defualtCustomer(other.defualtCustomer),
+defaultVolunteer(other.defaultVolunteer),
+defaultOrder(other.defaultOrder)
+{
+    // Deep copy for vectors
+    std::copy(other.actionsLog.begin(), other.actionsLog.end(), actionsLog.begin());
+    std::copy(other.volunteers.begin(), other.volunteers.end(), volunteers.begin());
+    std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), pendingOrders.begin());
+    std::copy(other.inProcessOrders.begin(), other.inProcessOrders.end(), inProcessOrders.begin());
+    std::copy(other.completedOrders.begin(), other.completedOrders.end(), completedOrders.begin());
+    std::copy(other.customers.begin(), other.customers.end(), customers.begin());
+    //clear all others vectors
+    other.actionsLog.clear();
+    other.volunteers.clear();
+    other.pendingOrders.clear();
+    other.inProcessOrders.clear();
+    other.completedOrders.clear();
+    other.completedOrders.clear();
+
+}
+
+WareHouse& WareHouse::operator=(WareHouse&& other) noexcept
+{
+    if(this != &other){
+        //take others fields 
+        isOpen=other.isOpen ;
+        customerCounter=other.customerCounter;
+        volunteerCounter=other.volunteerCounter;
+        orderCounter=other.orderCounter, 
+        defualtCustomer=other.defualtCustomer;
+        defaultVolunteer=other.defaultVolunteer;
+        defaultOrder=other.defaultOrder;
+        std::copy(other.actionsLog.begin(), other.actionsLog.end(), actionsLog.begin());
+        std::copy(other.volunteers.begin(), other.volunteers.end(), volunteers.begin());
+        std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), pendingOrders.begin());
+        std::copy(other.inProcessOrders.begin(), other.inProcessOrders.end(), inProcessOrders.begin());
+        std::copy(other.completedOrders.begin(), other.completedOrders.end(), completedOrders.begin());
+        std::copy(other.customers.begin(), other.customers.end(), customers.begin());
+        //clear all others vectors
+        other.actionsLog.clear();
+        other.volunteers.clear();
+        other.pendingOrders.clear();
+        other.inProcessOrders.clear();
+        other.completedOrders.clear();
+        other.completedOrders.clear();
+
+	}
+	return *this;
+
+}
 
 
-    //other.actionsLog[0] = nullptr;
-    //delete &other.actionsLog;
 
 
-//}
+
+
+
+
+
+
 
 
 
@@ -354,11 +407,10 @@ void WareHouse::handOverOrders()
     // Step 1: Hand over orders to volunteers
     while (it != pendingOrders.end() && pendingOrders.size() > 0) 
     {
-        Order *&order = *it;
-        // std::cout << count++;
+        Order* &order = *it;
         for (Volunteer *&volunteer : volunteers)
         {
-            if (volunteer->canTakeOrder(*order) && (volunteer->isCollector()))
+            if (volunteers[i]->canTakeOrder(*order) && (volunteers[i]->isCollector()))
             {
                 volunteer->acceptOrder(*order);
                 order->setCollectorId(volunteer->getId());
@@ -381,8 +433,8 @@ void WareHouse::handOverOrders()
             {
                 volunteer->acceptOrder(*order);
                 order->setDriverId(volunteer->getId());
-                completedOrders.push_back(*&order);
-                inProcessOrders.erase(it);
+                inProcessOrders.push_back(order);
+                pendingOrders.erase(it);
                 break; // Order handed over, move to the next order
             }
         }
@@ -436,7 +488,7 @@ void WareHouse::deleteFinishedVolunteers()
     while (it != volunteers.end())
     {
         Volunteer *volunteer = *it;
-        if (volunteer->hasOrdersLeft() == false && volunteer->getActiveOrderId() == NO_ORDER)
+        if (!volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
         {
             // Volunteer reached maxOrders limit and finished handling the last order
             it = volunteers.erase(it);
