@@ -349,27 +349,26 @@ int WareHouse::getIdNeworder()
 
 void WareHouse::handOverOrders()
 {
+    int count = 0;
     std::vector<Order *>::iterator it = pendingOrders.begin();
     // Step 1: Hand over orders to volunteers
     while (it != pendingOrders.end() && pendingOrders.size() > 0) 
     {
         Order *&order = *it;
+        // std::cout << count++;
         for (Volunteer *&volunteer : volunteers)
         {
             if (volunteer->canTakeOrder(*order) && (volunteer->isCollector()))
             {
                 volunteer->acceptOrder(*order);
                 order->setCollectorId(volunteer->getId());
-                inProcessOrders.push_back(order);
+                inProcessOrders.push_back(*&order);
                 pendingOrders.erase(it);
                 break; // Order handed over, move to the next order
             }
         }
         ++it;
     }
-
-    // std::cout << "done 1";
-    // int count = 0;
 
     std::vector<Order *>::iterator it2 = inProcessOrders.begin();
     while (it2 != inProcessOrders.end()  && pendingOrders.size() > 0)
@@ -382,8 +381,8 @@ void WareHouse::handOverOrders()
             {
                 volunteer->acceptOrder(*order);
                 order->setDriverId(volunteer->getId());
-                inProcessOrders.push_back(order);
-                pendingOrders.erase(it);
+                completedOrders.push_back(*&order);
+                inProcessOrders.erase(it);
                 break; // Order handed over, move to the next order
             }
         }
