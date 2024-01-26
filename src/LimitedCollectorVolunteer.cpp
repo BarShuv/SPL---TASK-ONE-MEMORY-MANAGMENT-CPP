@@ -23,7 +23,7 @@ using std::vector;
     }
 
     void LimitedCollectorVolunteer::acceptOrder(const Order &order) {
-        //CollectorVolunteer::acceptOrder(order);
+        CollectorVolunteer::acceptOrder(order);
         ordersLeft--;
     }
 
