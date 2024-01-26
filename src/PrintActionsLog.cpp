@@ -13,13 +13,14 @@ PrintActionsLog::PrintActionsLog(){}
 void PrintActionsLog::act(WareHouse &wareHouse)
 {
     std::stringstream st;   
-    wareHouse.addAction(this);
     std::vector<BaseAction*> actions = wareHouse.getActions();
     for(BaseAction* act : actions){
         st << act->toString() << std::endl;
     }
-    std::cout << st.str() << std::endl;
+    std::cout << st.str() ;
     complete();
+    wareHouse.addAction(this);
+
 
 }
 string PrintActionsLog::toString() const

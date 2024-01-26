@@ -61,6 +61,12 @@ WareHouse &WareHouse::operator=(const WareHouse &other)
         volunteerCounter = other.volunteerCounter;
         orderCounter = other.orderCounter;
 
+        actionsLog.clear();
+        volunteers.clear();
+        pendingOrders.clear();
+        inProcessOrders.clear();
+        completedOrders.clear();
+        completedOrders.clear();
         // Deep copy for vectors
         std::copy(other.actionsLog.begin(), other.actionsLog.end(), std::back_inserter(actionsLog));
         std::copy(other.volunteers.begin(), other.volunteers.end(), std::back_inserter(volunteers));
@@ -253,16 +259,16 @@ void WareHouse::start()
 
         else if (command == "backup")
         {
-            std::cout << "entered backup " << std::endl;
-            // BackupWareHouse* backup = new BackupWareHouse();
-            // backup->act(*this);
+            //std::cout << "entered backup " << std::endl;
+            BackupWareHouse* backup = new BackupWareHouse();
+            backup->act(*this);
         }
 
         else if (command == "restore")
         {
-            std::cout << "entered restore " << std::endl;
-            // RestoreWareHouse* restore =new RestoreWareHouse();
-            // restore->act(*this);
+            //std::cout << "entered restore " << std::endl;
+            RestoreWareHouse* restore =new RestoreWareHouse();
+            restore->act(*this);
         }
 
         else
@@ -430,8 +436,9 @@ void WareHouse::handOverOrders()
     {
         for (std::vector<Volunteer *>::size_type j = 0; j < volunteers.size(); j++)
         {
-            if (volunteers[j]->canTakeOrder(*pendingOrders[i]) && (volunteers[i]->isCollector()))
+            if (volunteers[j]->canTakeOrder(*pendingOrders[i]) && (volunteers[j]->isCollector()))
             {
+                
                 volunteers[j]->acceptOrder(*pendingOrders[i]);
                 pendingOrders[i]->setCollectorId(volunteers[j]->getId());
                 pendingOrders[i]->setStatus(OrderStatus::COLLECTING);

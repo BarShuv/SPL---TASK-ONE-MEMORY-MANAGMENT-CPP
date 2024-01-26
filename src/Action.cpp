@@ -1,5 +1,6 @@
 #include "../include/Action.h"
 #include <iostream>
+extern WareHouse* backup;
 
 BaseAction::BaseAction() : errorMsg(""), status()
 //construct to default values
@@ -262,15 +263,94 @@ void SimulateStep::act(WareHouse &wareHouse)
 
         // Complete the action
         complete();
+        wareHouse.addAction(this);
+
     }
 }
 
 std::string SimulateStep::toString() const
 {
-    return "SimulateStep: " + std::to_string(numOfSteps) + " steps";
+    return "simulateStep: " + std::to_string(numOfSteps) + " COMPLETED";
 }
 
 SimulateStep *SimulateStep::clone() const
 {
     return new SimulateStep(*this);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+ //////////////////////////////////backup 
+    
+BackupWareHouse::BackupWareHouse()
+{}
+
+void BackupWareHouse:: act(WareHouse &wareHouse) {
+    //use operator = assignment to assign the current warehouse
+    backup = new WareHouse(wareHouse);
+    wareHouse.addAction(this);
+    complete();
+}
+BackupWareHouse* BackupWareHouse:: clone() const 
+{
+    return new BackupWareHouse(*this);
+}
+string BackupWareHouse::toString() const 
+{
+    return "backup COMPLETED";
+}
+
+
+
+////////////////////////////////restore
+
+RestoreWareHouse::RestoreWareHouse(){}
+
+void RestoreWareHouse:: act(WareHouse &wareHouse) {
+    if(backup!=nullptr)
+    {
+        //use assignment opperator = to assign the backup values to current wareHouse
+        wareHouse = *backup;
+    }
+    else
+    {
+        //if no backup available its error
+        error("No backup available");
+        std::cout << "Error: " << getErrorMsg() << std::endl;
+    }
+    wareHouse.addAction(this);
+    complete();
+}
+RestoreWareHouse* RestoreWareHouse::clone() const {
+    return new RestoreWareHouse(*this);
+}
+string RestoreWareHouse::toString() const {
+    ActionStatus actionStatus = getStatus();
+    if (actionStatus == ActionStatus::COMPLETED) {
+        return "backup COMPLETED";
+    } else {
+        return getErrorMsg();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

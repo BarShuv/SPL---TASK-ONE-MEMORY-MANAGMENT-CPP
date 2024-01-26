@@ -123,7 +123,7 @@ class Close : public BaseAction { //amit do this
     private:
 };
 
-class BackupWareHouse : public BaseAction { //amit do this
+class BackupWareHouse : public BaseAction { 
     public:
         BackupWareHouse();
         void act(WareHouse &wareHouse) override;
@@ -133,7 +133,7 @@ class BackupWareHouse : public BaseAction { //amit do this
 };
 
 
-class RestoreWareHouse : public BaseAction { //amit do this
+class RestoreWareHouse : public BaseAction { 
     public:
         RestoreWareHouse();
         void act(WareHouse &wareHouse) override;

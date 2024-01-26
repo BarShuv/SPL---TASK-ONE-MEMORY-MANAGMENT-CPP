@@ -9,11 +9,11 @@ class BaseAction;
 class Volunteer;
 class Order;
 
+
 // Warehouse responsible for Volunteers, Customers Actions, and Orders.
 
 class WareHouse
 {
-
 public:
     WareHouse(const string &configFilePath);
     ~WareHouse();
