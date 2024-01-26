@@ -410,7 +410,7 @@ void WareHouse::handOverOrders()
         Order* &order = *it;
         for (Volunteer *&volunteer : volunteers)
         {
-            if (volunteers[i]->canTakeOrder(*order) && (volunteers[i]->isCollector()))
+            if (volunteer->canTakeOrder(*order) && (volunteer->isCollector()))
             {
                 volunteer->acceptOrder(*order);
                 order->setCollectorId(volunteer->getId());
