@@ -34,7 +34,11 @@ WareHouse::WareHouse(const WareHouse &other)
       customers(other.customers.size()),
       customerCounter(other.customerCounter),
       volunteerCounter(other.volunteerCounter),
-      orderCounter(other.orderCounter)
+      orderCounter(other.orderCounter),
+      defualtCustomer(new CivilianCustomer(-1, "", -1, -1)),
+      defaultVolunteer(new DriverVolunteer(-1, "", -1, -1)),
+      defaultOrder(new Order(-1, -1, -1))
+
 {
     // Deep copy for vectors
     std::copy(other.actionsLog.begin(), other.actionsLog.end(), actionsLog.begin());
@@ -402,44 +406,41 @@ int WareHouse::getIdNeworder()
 
 void WareHouse::handOverOrders()
 {
-    int count = 0;
-    std::vector<Order *>::iterator it = pendingOrders.begin();
-    // Step 1: Hand over orders to volunteers
-    while (it != pendingOrders.end() && pendingOrders.size() > 0) 
+    //for (std::vector<int>::size_type i = 0; i < orders1.size(); i++) {
+            //std::cout << orders1[i]<<std::endl;
+        //}
+    for (std::vector<Order *>::size_type i = 0; i < inProcessOrders.size(); i++) 
     {
-        Order* &order = *it;
-        for (Volunteer *&volunteer : volunteers)
-        {
-            if (volunteer->canTakeOrder(*order) && (volunteer->isCollector()))
-            {
-                volunteer->acceptOrder(*order);
-                order->setCollectorId(volunteer->getId());
-                inProcessOrders.push_back(*&order);
-                pendingOrders.erase(it);
-                break; // Order handed over, move to the next order
-            }
-        }
-        ++it;
-    }
-
-    std::vector<Order *>::iterator it2 = inProcessOrders.begin();
-    while (it2 != inProcessOrders.end()  && pendingOrders.size() > 0)
-    {
-        Order *&order = *it2;
-        for (Volunteer *&volunteer : volunteers)
+        for (std::vector<Volunteer *>::size_type j = 0; i < volunteers.size(); j++)
         {
             // std::cout << count++;
-            if (volunteer->canTakeOrder(*order) && volunteer->isDriver())
+            if (volunteers[j]->canTakeOrder(*inProcessOrders[i]) && volunteers[j]->isDriver())
             {
-                volunteer->acceptOrder(*order);
-                order->setDriverId(volunteer->getId());
-                inProcessOrders.push_back(order);
-                pendingOrders.erase(it);
+                volunteers[j]->acceptOrder(*inProcessOrders[i]);
+                inProcessOrders[i]->setDriverId(volunteers[j]->getId());
+                inProcessOrders.push_back(inProcessOrders[i]);
+                inProcessOrders.erase(inProcessOrders.begin() +i);
                 break; // Order handed over, move to the next order
             }
         }
-        ++it;
     }
+    // Step 1: Hand over orders to volunteers
+    for (std::vector<Order *>::size_type i = 0; i < pendingOrders.size(); i++) 
+    {
+        for (std::vector<Volunteer *>::size_type j = 0; i < volunteers.size(); j++)
+        {
+            if (volunteers[j]->canTakeOrder(*pendingOrders[i]) && (volunteers[i]->isCollector()))
+            {
+                volunteers[j]->acceptOrder(*pendingOrders[i]);
+                pendingOrders[i]->setCollectorId(volunteers[j]->getId());
+                inProcessOrders.push_back(pendingOrders[i]);
+                pendingOrders.erase(pendingOrders.begin() +i);
+                break; // Order handed over, move to the next order
+            }
+        }
+    }
+
+
 }
 
 void WareHouse::performSimulationStep()
