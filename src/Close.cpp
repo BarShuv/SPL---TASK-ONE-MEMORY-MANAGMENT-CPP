@@ -15,9 +15,10 @@ void Close::act(WareHouse &wareHouse)
     {
         str << "OrderID: " << order->getId();
         str << ", CustomerID: " << order->getCustomerId();
-        str << ", Status: " << (order->getStatusStr()) << std::endl;
+        str << ", OrderStatus: " << (order->getStatusStr()) << std::endl;
     }
     std::cout << str.str();
+    wareHouse.addAction(this);
 
     wareHouse.close();
 }

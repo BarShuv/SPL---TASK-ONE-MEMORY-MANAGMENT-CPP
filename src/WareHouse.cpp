@@ -60,14 +60,14 @@ WareHouse &WareHouse::operator=(const WareHouse &other)
         customerCounter = other.customerCounter;
         volunteerCounter = other.volunteerCounter;
         orderCounter = other.orderCounter;
-
+        //clear all this vectors before inserting 
         actionsLog.clear();
         volunteers.clear();
         pendingOrders.clear();
         inProcessOrders.clear();
         completedOrders.clear();
         completedOrders.clear();
-        // Deep copy for vectors
+        //Deep copy for vectors
         std::copy(other.actionsLog.begin(), other.actionsLog.end(), std::back_inserter(actionsLog));
         std::copy(other.volunteers.begin(), other.volunteers.end(), std::back_inserter(volunteers));
         std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), std::back_inserter(pendingOrders));
@@ -118,6 +118,14 @@ WareHouse& WareHouse::operator=(WareHouse&& other) noexcept
         defualtCustomer=other.defualtCustomer;
         defaultVolunteer=other.defaultVolunteer;
         defaultOrder=other.defaultOrder;
+        //clear this vectors before inserting
+        actionsLog.clear();
+        volunteers.clear();
+        pendingOrders.clear();
+        inProcessOrders.clear();
+        completedOrders.clear();
+        completedOrders.clear();
+        //copy values
         std::copy(other.actionsLog.begin(), other.actionsLog.end(), actionsLog.begin());
         std::copy(other.volunteers.begin(), other.volunteers.end(), volunteers.begin());
         std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), pendingOrders.begin());
@@ -140,7 +148,43 @@ WareHouse& WareHouse::operator=(WareHouse&& other) noexcept
 
 
 
-
+WareHouse::~WareHouse()
+{
+    // delete actionsLog;
+    for (BaseAction *act : actionsLog)
+    {
+        delete act;
+    }
+    // delete volunteers;
+    for (Volunteer *vol : volunteers)
+    {
+        delete vol;
+    }
+    // delete pendingOrders;
+    for (Order *ord : pendingOrders)
+    {
+        delete ord;
+    }
+    // delete inProcessOrders;
+    for (Order *ord : inProcessOrders)
+    {
+        delete ord;
+    }
+    // delete completedOrders;
+    for (Order *ord : completedOrders)
+    {
+        delete ord;
+    }
+    // delete customers;
+    for (Customer *cus : customers)
+    {
+        delete cus;
+    }
+    delete defaultOrder;
+    delete defaultVolunteer;
+    delete defualtCustomer;
+    
+}
 
 
 
@@ -523,39 +567,7 @@ const vector<Order *> WareHouse::getAllOrders() const
     return allOrders;
 }
 
-WareHouse::~WareHouse()
-{
-    // delete actionsLog;
-    for (BaseAction *act : actionsLog)
-    {
-        delete act;
-    }
-    // delete volunteers;
-    for (Volunteer *vol : volunteers)
-    {
-        delete vol;
-    }
-    // delete pendingOrders;
-    for (Order *ord : pendingOrders)
-    {
-        delete ord;
-    }
-    // delete inProcessOrders;
-    for (Order *ord : inProcessOrders)
-    {
-        delete ord;
-    }
-    // delete completedOrders;
-    for (Order *ord : completedOrders)
-    {
-        delete ord;
-    }
-    // delete customers;
-    for (Customer *cus : customers)
-    {
-        delete cus;
-    }
-}
+
 
 //   int main(int argc, char** argv){
 

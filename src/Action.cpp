@@ -263,14 +263,15 @@ void SimulateStep::act(WareHouse &wareHouse)
 
         // Complete the action
         complete();
-        wareHouse.addAction(this);
 
     }
+    wareHouse.addAction(this);
+
 }
 
 std::string SimulateStep::toString() const
 {
-    return "simulateStep: " + std::to_string(numOfSteps) + " COMPLETED";
+    return "simulateStep " + std::to_string(numOfSteps) + " COMPLETED";
 }
 
 SimulateStep *SimulateStep::clone() const
