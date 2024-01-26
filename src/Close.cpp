@@ -3,6 +3,7 @@
 #include "../include/Order.h"
 
 #include <sstream>
+#include <iostream>
 
 Close::Close() {}
 
@@ -16,6 +17,8 @@ void Close::act(WareHouse &wareHouse)
         str << ", CustomerID: " << order->getCustomerId();
         str << ", Status: " << (order->getStatusStr()) << std::endl;
     }
+    std::cout << str.str();
+
     wareHouse.close();
 }
 

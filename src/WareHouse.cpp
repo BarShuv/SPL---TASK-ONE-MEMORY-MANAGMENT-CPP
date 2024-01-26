@@ -368,7 +368,8 @@ void WareHouse::handOverOrders()
         ++it;
     }
 
-    std::cout << "done 1";
+    // std::cout << "done 1";
+    // int count = 0;
 
     std::vector<Order *>::iterator it2 = inProcessOrders.begin();
     while (it2 != inProcessOrders.end()  && pendingOrders.size() > 0)
@@ -376,6 +377,7 @@ void WareHouse::handOverOrders()
         Order *&order = *it2;
         for (Volunteer *&volunteer : volunteers)
         {
+            // std::cout << count++;
             if (volunteer->canTakeOrder(*order) && volunteer->isDriver())
             {
                 volunteer->acceptOrder(*order);
@@ -435,7 +437,7 @@ void WareHouse::deleteFinishedVolunteers()
     while (it != volunteers.end())
     {
         Volunteer *volunteer = *it;
-        if (volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
+        if (volunteer->hasOrdersLeft() == false && volunteer->getActiveOrderId() == NO_ORDER)
         {
             // Volunteer reached maxOrders limit and finished handling the last order
             it = volunteers.erase(it);
