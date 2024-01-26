@@ -4,7 +4,7 @@
 
 Order::Order(int id, int customerId, int distance)
 :id(id),customerId(customerId),distance(distance),status(OrderStatus::PENDING),collectorId(NO_VOLUNTEER),driverId(NO_VOLUNTEER)
-{}
+{}//cunstractor to given parameters and defaults
     
 int Order::getId() const {
     return id;
@@ -67,38 +67,24 @@ string Order::getStatusStr() const
 }
 
 
-
-
-
 const string Order::toString() const {
     std::stringstream ss;
     string orderStatusStr = getStatusStr();
     string collectorIdStr = std::to_string(collectorId);
     string driverIdStr = std::to_string(driverId);
 
-
-
+    //builds string for the orderStatus action
     if (collectorId==NO_VOLUNTEER){
         collectorIdStr = "None";
     }
     if (driverId==NO_VOLUNTEER){
         driverIdStr = "None";
     }
-
     ss << "OrderId: " << id << std::endl;
     ss << "OrderStatus: " << orderStatusStr<< std::endl;
     ss << "CustomerID: " << customerId << std::endl;
     ss << "Collector: " << collectorIdStr << std::endl;
     ss << "Driver: " << driverIdStr ;
-
     return ss.str();
 }
 
- //   int main(int argc, char** argv){
- //       Order o =  Order(2222,3333,60);
- //       o.setCollectorId(34634654);
-  //      o.setDriverId(443534);
-  //      std::cout << o.toString()<<std::endl;
-
-    //    return 0;
-   // }

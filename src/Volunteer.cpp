@@ -1,11 +1,11 @@
-#include "../include/Volunteer.h" // Include the Volunteer class header
-#include "../include/Order.h"     // Include the Order class header
+#include "../include/Volunteer.h" 
 #include <string>
 #include <vector>
 using std::string;
 using std::vector;
 
 Volunteer::Volunteer(int id, const string &name) : completedOrderId(NO_ORDER), activeOrderId(NO_ORDER), id(id), name(name) {}
+//cunstructs to default values and fathers values
 
 int Volunteer::getId() const
 {
@@ -29,5 +29,6 @@ int Volunteer::getCompletedOrderId() const
 
 bool Volunteer::isBusy() const
 {
+    //busy if there is an order
     return activeOrderId != NO_ORDER;
 }

@@ -1,5 +1,4 @@
 #include "../include/Volunteer.h"
-#include "../include/Order.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -76,10 +75,28 @@ bool DriverVolunteer::isCollector() const
 string DriverVolunteer::toString() const
 {
     std::stringstream str;
-    str << "VolunteerID: " << getId() << std::endl;
-    str << "IsBusy: " << isBusy() << std::endl;
-    str << "OrderId: " << getActiveOrderId() << std::endl;
-    str << "DistanceLeft:" << getDistanceLeft() << std::endl;
-    str << "ordersLeft: No Limit " ;
+        string isBusyStr;
+
+        //returns string matches the volunteer status action
+
+        if(isBusy()){isBusyStr = "True";}
+        else{isBusyStr = "False";}
+
+         str << "VolunteerID: " << getId() << std::endl;
+         str << "IsBusy: " << isBusyStr << std::endl;
+         if(distanceLeft ==0){
+            str << "OrderId: None" << std::endl;
+         }
+         else{
+         str << "OrderId: " << getActiveOrderId() << std::endl;
+         }
+        if(distanceLeft ==0){
+            str << "TimeLeft: None" << std::endl;
+        }
+        else
+        {
+            str << "TimeLeft: " << distanceLeft << std::endl;
+        }
+        str << "ordersLeft: No Limit" ;
     return str.str();
 }

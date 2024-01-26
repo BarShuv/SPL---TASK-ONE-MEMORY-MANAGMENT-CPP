@@ -255,7 +255,6 @@ void WareHouse::start()
             ss >> customer_distance;
             ss >> max_orders;
 
-            // std::cout << "entered customer " << customer_name << std::endl;
             AddCustomer *addCustomer = new AddCustomer(customer_name, customer_type, customer_distance, max_orders);
             addCustomer->act(*this);
         }
@@ -264,7 +263,6 @@ void WareHouse::start()
         {
             int order_id;
             ss >> order_id;
-            // std::cout << "entered orderStatus " << order_id << std::endl;
             PrintOrderStatus *printOrder = new PrintOrderStatus(order_id);
             printOrder->act(*this);
         }
@@ -273,7 +271,6 @@ void WareHouse::start()
         {
             int customer_id;
             ss >> customer_id;
-            // std::cout << "entered customerStatus " << customer_id << std::endl;
             PrintCustomerStatus *printCustomer = new PrintCustomerStatus(customer_id);
             printCustomer->act(*this);
         }
@@ -282,35 +279,30 @@ void WareHouse::start()
         {
             int volunteer_id;
             ss >> volunteer_id;
-            // std::cout << "entered volunteerStatus " << volunteer_id << std::endl;
             PrintVolunteerStatus *printvolunteer = new PrintVolunteerStatus(volunteer_id);
             printvolunteer->act(*this);
         }
 
         else if (command == "log")
         {
-            // std::cout << "entered log " << std::endl;
             PrintActionsLog *log = new PrintActionsLog();
             log->act(*this);
         }
 
         else if (command == "close")
         {
-            // std::cout << "entered close " << std::endl;
             Close *close = new Close();
             close->act(*this);
         }
 
         else if (command == "backup")
         {
-            //std::cout << "entered backup " << std::endl;
             BackupWareHouse* backup = new BackupWareHouse();
             backup->act(*this);
         }
 
         else if (command == "restore")
         {
-            //std::cout << "entered restore " << std::endl;
             RestoreWareHouse* restore =new RestoreWareHouse();
             restore->act(*this);
         }
@@ -403,20 +395,10 @@ Order &WareHouse::getOrder(int orderId) const
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void WareHouse:: downOneOrderId(){
+    //decrease by 1 order id
+    orderCounter--;
+}
 
 
 const vector<BaseAction *> &WareHouse::getActions() const
@@ -454,6 +436,10 @@ int WareHouse::getIdNeworder()
     return orderCounter;
 }
 
+
+
+
+/////////////////////////////////////////////////step
 void WareHouse::handOverOrders()
 {
     //for (std::vector<int>::size_type i = 0; i < orders1.size(); i++) {
@@ -567,15 +553,3 @@ const vector<Order *> WareHouse::getAllOrders() const
     return allOrders;
 }
 
-
-
-//   int main(int argc, char** argv){
-
-//      WareHouse a = WareHouse("/home/shubb/spl-Task1/spl-Task1/bin/configFileExample.txt");
-//    Customer* yos = new CivilianCustomer(212400113,"yossi",10,3);
-//   a.addCustomer(yos);
-//   Order* o = new Order(1,212400113,3);
-//   a.addOrder(o);
-//   a.start();
-//   return 0;
-//}

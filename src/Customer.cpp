@@ -1,11 +1,10 @@
 #include "../include/Customer.h"
-#include "../include/Order.h" // Include the Order class header
 #include <string>
 #include <vector>
 #include <iostream>
 using std::string;
 using std::vector;
-
+    //cunstractor to parameters
     Customer::Customer(int id, const string &name, int locationDistance, int maxOrders):
     id(id),name(name),locationDistance(locationDistance),maxOrders(maxOrders),ordersId(),ordersMade(0){}
     
@@ -19,7 +18,6 @@ using std::vector;
 
     int Customer::getCustomerDistance() const
     {
-        //we need to see if this is needed - dont see why right now
         return locationDistance;
     }
 
@@ -84,35 +82,3 @@ using std::vector;
 
     }
 
-/**
-    int main(int argc, char** argv){
-        std::cout << "Hello World!" << std::endl;
-        SoldierCustomer soli(212400114,"bar",120,6);
-        std::cout << soli.getId() <<soli.getCustomerDistance()<<soli.getLocationDistance()<<soli.getMaxOrders()<<soli.getName()<<soli.getNumOrders() <<std::endl;
-        
-        soli.addOrder(22222222);
-                soli.addOrder(11);
-
-        soli.addOrder(1111);
-        
-        vector<int> orders = soli.getOrdersIds();
-        for (std::vector<int>::size_type i = 0; i < orders.size(); i++) {
-                   std::cout << orders[i]<<std::endl;
-        }
-
-
-        std::cout << soli.getNumOrders()<<std::endl;
-
-
-        SoldierCustomer newci = *soli.clone();
-        std::cout << newci.getId() <<newci.getCustomerDistance()<<newci.getLocationDistance()<<newci.getMaxOrders()<<newci.getName()<<newci.getNumOrders() <<std::endl;
-                vector<int> orders1 = newci.getOrdersIds();
-        for (std::vector<int>::size_type i = 0; i < orders1.size(); i++) {
-                   std::cout << orders1[i]<<std::endl;
-        }
-
-
-        std::cout << newci.getNumOrders()<<std::endl;
-
-}
-**/

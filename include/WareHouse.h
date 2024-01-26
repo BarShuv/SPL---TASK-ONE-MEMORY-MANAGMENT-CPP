@@ -42,7 +42,7 @@ public:
     void checkVolunteers();
     void deleteFinishedVolunteers();
     const vector<Order *> getAllOrders() const; // needed for close.cpp
-
+    void downOneOrderId();
 
 private:
     bool isOpen;

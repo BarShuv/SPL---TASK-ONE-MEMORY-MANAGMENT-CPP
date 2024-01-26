@@ -52,10 +52,11 @@ void AddOrder::act(WareHouse &wareHouse)
         int orderID = wareHouse.getIdNeworder();
         if(a->addOrder(orderID) ==-1)
         {
-            orderID--;
             //if reached max orders
             error("Cannot place this order");
             std::cout << "Error: " << getErrorMsg() << std::endl;
+            //decrease id back - not valid order
+            wareHouse.downOneOrderId();
         }
         else
         {//make new order and add this to the pending orders vector
@@ -153,10 +154,11 @@ void PrintOrderStatus::act(WareHouse &wareHouse) {
     }
     else
     {
-        //orders toasTING ACTION PRINTS THE INFORMATION
+        //orders toString ACTION PRINTS THE INFORMATION
         std::cout << o->toString() << std::endl;
         complete();
     }
+    //add the action to actions vector
     wareHouse.addAction(this);
 }
 
@@ -168,7 +170,7 @@ PrintOrderStatus* PrintOrderStatus:: clone() const
 
 string PrintOrderStatus::toString() const 
 {
-    //return string matches to the action status and customerId
+    //return string matches to the action status and order Id
     ActionStatus actionStatus = getStatus();
     if (actionStatus == ActionStatus::COMPLETED) {
         return "orderStatus " + std::to_string(orderId) + " COMPLETED";
@@ -197,6 +199,7 @@ void PrintCustomerStatus::act(WareHouse &wareHouse){
         //run on the ids of customer's orders and print every id and status of order
         vector<int> ordersIds = c->getOrdersIds();
         for (std::vector<int>::size_type i = 0; i < ordersIds.size(); i++) {
+            //run on the customers orders ids
             std::cout << "OrderID: " << ordersIds[i] <<std::endl;
             //get the order object
             Order* o = &wareHouse.getOrder(ordersIds[i]) ;
@@ -207,6 +210,7 @@ void PrintCustomerStatus::act(WareHouse &wareHouse){
 
         complete();
     }
+    //add to actions 
     wareHouse.addAction(this);
 }
 
@@ -227,14 +231,6 @@ string PrintCustomerStatus::toString() const
         return "customerStatus " + std::to_string(customerId) + " ERROR";
     }
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -304,6 +300,7 @@ void BackupWareHouse:: act(WareHouse &wareHouse) {
 }
 BackupWareHouse* BackupWareHouse:: clone() const 
 {
+    //cloning the backup action
     return new BackupWareHouse(*this);
 }
 string BackupWareHouse::toString() const 
@@ -333,9 +330,11 @@ void RestoreWareHouse:: act(WareHouse &wareHouse) {
     complete();
 }
 RestoreWareHouse* RestoreWareHouse::clone() const {
+    //cloning the RestoreWareHouse action
     return new RestoreWareHouse(*this);
 }
 string RestoreWareHouse::toString() const {
+    //return string matches the status
     ActionStatus actionStatus = getStatus();
     if (actionStatus == ActionStatus::COMPLETED) {
         return "backup COMPLETED";

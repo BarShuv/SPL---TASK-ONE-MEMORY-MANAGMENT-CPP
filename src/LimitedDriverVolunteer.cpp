@@ -1,12 +1,11 @@
 #include "../include/Volunteer.h"
-#include "../include/Order.h"
 #include <string>
 #include <vector>
 #include <iostream>
 #include <sstream>
 using std::string;
 using std::vector;
-
+    //cunstractor to given parameters and default values , and fathers values
     LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int maxDistance, int distancePerStep, int maxOrders)
         : DriverVolunteer(id, name, maxDistance, distancePerStep), maxOrders(maxOrders), ordersLeft(maxOrders) {}
 
@@ -27,12 +26,11 @@ using std::vector;
     }
 
     bool LimitedDriverVolunteer::canTakeOrder(const Order &order) const {
-        //return DriverVolunteer::canTakeOrder(order) && ordersLeft > 0;
-        return ordersLeft > 0;
+        return DriverVolunteer::canTakeOrder(order) && ordersLeft > 0;
     }
 
     void LimitedDriverVolunteer::acceptOrder(const Order &order) {
-        //DriverVolunteer::acceptOrder(order);
+        DriverVolunteer::acceptOrder(order);
         ordersLeft--;
     }
 
@@ -45,10 +43,27 @@ using std::vector;
 
     string LimitedDriverVolunteer::toString() const {
          std::stringstream str;
+        string isBusyStr;
+        //returns string matches the volunteer status action
+
+        if(isBusy()){isBusyStr = "True";}
+        else{isBusyStr = "False";}
+
          str << "VolunteerID: " << getId() << std::endl;
-         str << "IsBusy: " << isBusy() << std::endl;
+         str << "IsBusy: " << isBusyStr << std::endl;
+         if(getDistanceLeft() ==0){
+            str << "OrderId: None" << std::endl;
+         }
+         else{
          str << "OrderId: " << getActiveOrderId() << std::endl;
-         str << "DistanceLeft: " << getDistanceLeft() << std::endl;
-         str << "Orders Left: " << getNumOrdersLeft() ;
+         }
+        if(getDistanceLeft() ==0){
+            str << "TimeLeft: None" << std::endl;
+        }
+        else
+        {
+            str << "TimeLeft: " << getDistanceLeft() << std::endl;
+        }
+         str << "OrdersLeft: " << getNumOrdersLeft() ;
          return str.str();
     }

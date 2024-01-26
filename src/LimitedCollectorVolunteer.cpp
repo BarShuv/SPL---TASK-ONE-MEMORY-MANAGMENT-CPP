@@ -1,5 +1,4 @@
 #include "../include/Volunteer.h"
-#include "../include/Order.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -46,10 +45,28 @@ using std::vector;
 
     string LimitedCollectorVolunteer::toString() const {
         std::stringstream str;
+        string isBusyStr;
+        //returns string matches the volunteer status action
+
+
+        if(isBusy()){isBusyStr = "True";}
+        else{isBusyStr = "False";}
+
          str << "VolunteerID: " << getId() << std::endl;
-         str << "IsBusy: " << isBusy() << std::endl;
+         str << "IsBusy: " << isBusyStr << std::endl;
+         if(getTimeLeft() ==0){
+            str << "OrderId: None" << std::endl;
+         }
+         else{
          str << "OrderId: " << getActiveOrderId() << std::endl;
-         str << "TimeLeft: " << getTimeLeft() << std::endl;
+         }
+        if(getTimeLeft() ==0){
+            str << "TimeLeft: None" << std::endl;
+        }
+        else
+        {
+            str << "TimeLeft: " << getTimeLeft() << std::endl;
+        }
          str << "OrdersLeft: " << getNumOrdersLeft() ;
          return str.str();
     }
