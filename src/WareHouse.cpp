@@ -411,13 +411,14 @@ void WareHouse::handOverOrders()
         //}
     for (std::vector<Order *>::size_type i = 0; i < inProcessOrders.size(); i++) 
     {
-        for (std::vector<Volunteer *>::size_type j = 0; i < volunteers.size(); j++)
+        for (std::vector<Volunteer *>::size_type j = 0; j < volunteers.size(); j++)
         {
             // std::cout << count++;
             if (volunteers[j]->canTakeOrder(*inProcessOrders[i]) && volunteers[j]->isDriver())
             {
                 volunteers[j]->acceptOrder(*inProcessOrders[i]);
                 inProcessOrders[i]->setDriverId(volunteers[j]->getId());
+                pendingOrders[i]->setStatus(OrderStatus::DELIVERING);
                 inProcessOrders.push_back(inProcessOrders[i]);
                 inProcessOrders.erase(inProcessOrders.begin() +i);
                 break; // Order handed over, move to the next order
@@ -427,12 +428,13 @@ void WareHouse::handOverOrders()
     // Step 1: Hand over orders to volunteers
     for (std::vector<Order *>::size_type i = 0; i < pendingOrders.size(); i++) 
     {
-        for (std::vector<Volunteer *>::size_type j = 0; i < volunteers.size(); j++)
+        for (std::vector<Volunteer *>::size_type j = 0; j < volunteers.size(); j++)
         {
             if (volunteers[j]->canTakeOrder(*pendingOrders[i]) && (volunteers[i]->isCollector()))
             {
                 volunteers[j]->acceptOrder(*pendingOrders[i]);
                 pendingOrders[i]->setCollectorId(volunteers[j]->getId());
+                pendingOrders[i]->setStatus(OrderStatus::COLLECTING);
                 inProcessOrders.push_back(pendingOrders[i]);
                 pendingOrders.erase(pendingOrders.begin() +i);
                 break; // Order handed over, move to the next order
@@ -446,9 +448,9 @@ void WareHouse::handOverOrders()
 void WareHouse::performSimulationStep()
 {
     // Step 2: Perform a step in the simulation
-    for (Volunteer *&volunteer : volunteers)
+    for (std::vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++)
     {
-        volunteer->step();
+        volunteers[i]->step();
     }
 }
 
