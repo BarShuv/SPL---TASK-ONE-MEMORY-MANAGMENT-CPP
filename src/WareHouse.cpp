@@ -558,7 +558,7 @@ void WareHouse::checkVolunteers()
                         //vol handling
                         vol->resetVolAfterFinishedOrder();
 
-                        //order handling
+                        //order handling - check if done correctly
                         order->setStatus(OrderStatus::COMPLETED);
                         completedOrders.push_back(order);
                         inProcessOrders.erase(inProcessOrders.begin() + i);
