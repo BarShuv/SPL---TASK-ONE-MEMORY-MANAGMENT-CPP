@@ -39,6 +39,16 @@ bool DriverVolunteer::decreaseDistanceLeft()
     return false;
 }
 
+int DriverVolunteer::getCoolDown() const
+{
+    // only collector has cooldown but I need to call this function on generic volunteer, will check if its bigger then -1.;
+    return -1;
+}
+
+// int DriverVolunteer::getDistanceLeftFromVol() const{
+//     return distanceLeft;
+// }
+
 bool DriverVolunteer::hasOrdersLeft() const
 {
     return true; // Driver always has orders left
@@ -59,8 +69,29 @@ void DriverVolunteer::step()
 {
     if (distanceLeft > 0)
     {
-        decreaseDistanceLeft();
+        bool hasDistLeft = decreaseDistanceLeft();
+        if (distanceLeft < 0)
+        {
+            distanceLeft = 0;
+        }
+        // if(!hasDistLeft){
+        //     distanceLeft = 0;
+        //     completedOrderId = activeOrderId;
+        //     activeOrderId = NO_ORDER;
+        // }
     }
+}
+
+void DriverVolunteer::resetVolAfterFinishedOrder()
+{
+    distanceLeft = 0;
+    completedOrderId = activeOrderId;
+    activeOrderId = NO_ORDER;
+}
+
+int DriverVolunteer::getUpdatedDistanceLeft() const
+{
+    return distanceLeft;
 }
 
 bool DriverVolunteer::isDriver() const
@@ -75,28 +106,37 @@ bool DriverVolunteer::isCollector() const
 string DriverVolunteer::toString() const
 {
     std::stringstream str;
-        string isBusyStr;
+    string isBusyStr;
 
-        //returns string matches the volunteer status action
+    // returns string matches the volunteer status action
 
-        if(isBusy()){isBusyStr = "True";}
-        else{isBusyStr = "False";}
+    if (isBusy())
+    {
+        isBusyStr = "True";
+    }
+    else
+    {
+        isBusyStr = "False";
+    }
 
-         str << "VolunteerID: " << getId() << std::endl;
-         str << "IsBusy: " << isBusyStr << std::endl;
-         if(distanceLeft ==0){
-            str << "OrderId: None" << std::endl;
-         }
-         else{
-         str << "OrderId: " << getActiveOrderId() << std::endl;
-         }
-        if(distanceLeft ==0){
-            str << "TimeLeft: None" << std::endl;
-        }
-        else
-        {
-            str << "TimeLeft: " << distanceLeft << std::endl;
-        }
-        str << "ordersLeft: No Limit" ;
+    str << "VolunteerID: " << getId() << std::endl;
+    str << "IsBusy: " << isBusyStr << std::endl;
+    if (distanceLeft == 0)
+    {
+        str << "OrderId: None" << std::endl;
+    }
+    else
+    {
+        str << "OrderId: " << getActiveOrderId() << std::endl;
+    }
+    if (distanceLeft == 0)
+    {
+        str << "TimeLeft: None" << std::endl;
+    }
+    else
+    {
+        str << "TimeLeft: " << distanceLeft << std::endl;
+    }
+    str << "ordersLeft: No Limit";
     return str.str();
 }

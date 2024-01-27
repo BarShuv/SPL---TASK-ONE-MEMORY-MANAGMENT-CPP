@@ -3,7 +3,7 @@
 #include <iostream>
 
 Order::Order(int id, int customerId, int distance)
-:id(id),customerId(customerId),distance(distance),status(OrderStatus::PENDING),collectorId(NO_VOLUNTEER),driverId(NO_VOLUNTEER)
+:id(id),customerId(customerId),distance(distance),status(OrderStatus::PENDING),collectorId(NO_VOLUNTEER),driverId(NO_VOLUNTEER),processingTimeLeft(-1)
 {}//cunstractor to given parameters and defaults
     
 int Order::getId() const {
@@ -32,6 +32,10 @@ int Order::getCollectorId() const {
 
 int Order::getDriverId() const {
     return driverId;
+}
+
+int Order::getProcessingTimeLeft() const {
+    return processingTimeLeft;
 }
 
 OrderStatus Order::getStatus() const {

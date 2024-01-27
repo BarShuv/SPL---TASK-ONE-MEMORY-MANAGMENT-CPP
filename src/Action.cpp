@@ -149,7 +149,7 @@ void PrintOrderStatus::act(WareHouse &wareHouse) {
     if (o->getId() ==-1)
     {  
         //if get order function return defult order
-        error("Order doesn't exsists");
+        error("Order doesn't exists");
         std::cout << "Error: " << getErrorMsg() << std::endl;
     }
     else

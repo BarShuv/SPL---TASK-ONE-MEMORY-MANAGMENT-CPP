@@ -23,12 +23,14 @@ class Order {
         void setStatus(OrderStatus status);
         void setCollectorId(int collectorId);
         void setDriverId(int driverId);
+        void setProcessingTimeLeft(int ptl);
         int getCollectorId() const;
         int getDriverId() const;
         OrderStatus getStatus() const;
         string getStatusStr() const;
         const string toString() const;
         int getDistance() const;
+        int getProcessingTimeLeft() const;
         
     private:
         const int id;
@@ -37,4 +39,5 @@ class Order {
         OrderStatus status;
         int collectorId; //Initialized to NO_VOLUNTEER if no collector has been assigned yet
         int driverId; //Initialized to NO_VOLUNTEER if no driver has been assigned yet
+        int processingTimeLeft;
 };

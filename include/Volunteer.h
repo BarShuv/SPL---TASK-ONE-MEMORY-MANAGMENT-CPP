@@ -23,6 +23,10 @@ class Volunteer {
         virtual Volunteer* clone() const = 0; //Return a copy of the volunteer
         virtual bool isDriver() const = 0;
         virtual bool isCollector() const = 0;
+        virtual int getCoolDown() const = 0;
+        // virtual int getDistanceLeftFromVol() const = 0;
+        virtual int getUpdatedDistanceLeft() const = 0;
+        virtual void resetVolAfterFinishedOrder() = 0;
         virtual ~Volunteer()=default;
 
 
@@ -51,6 +55,10 @@ class CollectorVolunteer: public Volunteer {
         void acceptOrder(const Order &order) override;
         virtual bool isDriver() const override;
         virtual bool isCollector() const override;
+        virtual int getCoolDown() const override;
+        // int getDistanceLeftFromVol() const override;
+        virtual int getUpdatedDistanceLeft() const override;
+        virtual void resetVolAfterFinishedOrder() override;
         string toString() const override;
     
     private:
@@ -94,6 +102,10 @@ class DriverVolunteer: public Volunteer {
         void step() override; // Decrease distanceLeft by distancePerStep
         virtual bool isDriver() const override;
         virtual bool isCollector() const override;
+        virtual int getCoolDown() const override;
+        virtual int getUpdatedDistanceLeft() const override;
+        virtual void resetVolAfterFinishedOrder() override;
+        // int getDistanceLeftFromVol() const override;
         string toString() const override;
 
     private:
