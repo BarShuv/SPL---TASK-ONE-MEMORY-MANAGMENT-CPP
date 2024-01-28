@@ -319,6 +319,7 @@ void RestoreWareHouse:: act(WareHouse &wareHouse) {
     {
         //use assignment opperator = to assign the backup values to current wareHouse
         wareHouse = *backup;
+        complete();
     }
     else
     {
@@ -327,7 +328,7 @@ void RestoreWareHouse:: act(WareHouse &wareHouse) {
         std::cout << "Error: " << getErrorMsg() << std::endl;
     }
     wareHouse.addAction(this);
-    complete();
+    
 }
 RestoreWareHouse* RestoreWareHouse::clone() const {
     //cloning the RestoreWareHouse action

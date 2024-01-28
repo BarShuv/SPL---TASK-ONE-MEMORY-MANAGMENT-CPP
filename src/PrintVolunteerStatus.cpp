@@ -37,7 +37,7 @@ string PrintVolunteerStatus::toString() const
         return "volunteerStatus " + std::to_string(volunteerId) + " COMPLETED";
     }
     else
-        return "volunteerStatus " +  std::to_string(volunteerId) + " FAILED";
+        return "volunteerStatus " +  std::to_string(volunteerId) + " ERROR";
 }
 PrintVolunteerStatus *PrintVolunteerStatus::clone() const
 {
