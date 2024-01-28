@@ -542,15 +542,15 @@ void WareHouse::checkVolunteers()
 // new version
 void WareHouse::deleteFinishedVolunteers()
 {
-    //Step 4: Delete volunteers that reached maxOrders limit and finished handling their last order
+    // Step 4: Delete volunteers that reached maxOrders limit and finished handling their last order
     for (std::vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++)
-    for (auto it = volunteers.begin(); it != volunteers.end(); ++it) 
     {
         Volunteer *volunteer = volunteers[i];
+        if (!volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
         {
-            //Volunteer reached maxOrders limit and finished handling the last order
+            // Volunteer reached maxOrders limit and finished handling the last order
             Volunteer *temp = volunteers[i];
-
+            volunteers.erase(volunteers.begin() + i);
             delete temp;
             i--;
         }
