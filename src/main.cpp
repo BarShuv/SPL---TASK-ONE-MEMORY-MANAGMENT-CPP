@@ -16,7 +16,6 @@ int main(int argc, char** argv){
     	delete backup;
     	backup = nullptr;
     }
-    std::cout << "got to end" << std::endl;
 
     return 0;
 }
