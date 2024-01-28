@@ -31,6 +31,7 @@ int DriverVolunteer::getDistancePerStep() const
 
 bool DriverVolunteer::decreaseDistanceLeft()
 {
+    //decrese distance left minimum to zero
     if (distanceLeft > 0)
     {
         distanceLeft -= distancePerStep;
@@ -41,13 +42,9 @@ bool DriverVolunteer::decreaseDistanceLeft()
 
 int DriverVolunteer::getCoolDownFromVol() const
 {
-    // only collector has cooldown but I need to call this function on generic volunteer, will check if its bigger then -1.;
     return -1;
 }
 
-// int DriverVolunteer::getDistanceLeftFromVol() const{
-//     return distanceLeft;
-// }
 
 bool DriverVolunteer::hasOrdersLeft() const
 {
@@ -56,17 +53,19 @@ bool DriverVolunteer::hasOrdersLeft() const
 
 bool DriverVolunteer::canTakeOrder(const Order &order) const
 {
+    //return true if conditions to take order are good
     return !isBusy() && order.getDistance() <= maxDistance;
 }
 
 void DriverVolunteer::acceptOrder(const Order &order)
-{
+{//sets values to given order
     activeOrderId = order.getId();
     distanceLeft = order.getDistance();
 }
 
 void DriverVolunteer::step()
 {
+    //performs step on simulation, minimum distance left 0
     if (distanceLeft > 0)
     {
         decreaseDistanceLeft();
@@ -74,11 +73,6 @@ void DriverVolunteer::step()
         {
             distanceLeft = 0;
         }
-        // if(!hasDistLeft){
-        //     distanceLeft = 0;
-        //     completedOrderId = activeOrderId;
-        //     activeOrderId = NO_ORDER;
-        // }
     }
 }
 

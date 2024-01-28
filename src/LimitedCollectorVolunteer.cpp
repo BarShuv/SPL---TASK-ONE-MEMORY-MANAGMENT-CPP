@@ -23,6 +23,7 @@ using std::vector;
     }
 
     void LimitedCollectorVolunteer::acceptOrder(const Order &order) {
+        //decrease orders left and set values to volunteer by order
         ordersLeft--;
         CollectorVolunteer::acceptOrder(order);
     }
@@ -43,6 +44,7 @@ using std::vector;
     }
 
     void LimitedCollectorVolunteer::resetVolAfterFinishedOrder(){
+        //call to fathers func
         CollectorVolunteer::resetVolAfterFinishedOrder();
     }
 

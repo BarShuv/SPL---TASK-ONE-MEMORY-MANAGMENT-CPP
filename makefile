@@ -1,13 +1,23 @@
+CXX = g++
+CXXFLAGS = -g -Wall -Weffc++ -std=c++11
+INCLUDES = -Iinclude
+
+SRCS = $(wildcard ./src/*.cpp)
+OBJS = $(patsubst ./src/%.cpp, ./bin/%.o, $(SRCS))
+TARGET = ./bin/warehouse
+
 all: clean compile link cleanObjAndRun
 
-compile:
-	g++ -g -Wall -Weffc++ -std=c++11 -c -Iinclude ./src/*.cpp 
+compile: $(OBJS)
 
-link:
-	g++ -g -Wall -Weffc++ -std=c++11 -o ./bin/warehouse *.o
+./bin/%.o: ./src/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+link: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
 clean:
-	rm -f ./bin/*.o
+	rm -f $(TARGET) ./bin/*.o
 
 cleanObjAndRun:
-	rm -f *.o
+	rm -f ./bin/*.o

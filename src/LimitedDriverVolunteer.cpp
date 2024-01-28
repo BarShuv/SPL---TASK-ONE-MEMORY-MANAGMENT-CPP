@@ -26,16 +26,19 @@ int LimitedDriverVolunteer::getNumOrdersLeft() const
 
 bool LimitedDriverVolunteer::hasOrdersLeft() const
 {
+    //has orders left only if num orders>0
     return ordersLeft > 0;
 }
 
 bool LimitedDriverVolunteer::canTakeOrder(const Order &order) const
 {
+    //call to fathers func
     return DriverVolunteer::canTakeOrder(order) && ordersLeft > 0;
 }
 
 void LimitedDriverVolunteer::acceptOrder(const Order &order)
 {
+    //decrease orders left and call to fathers func
     ordersLeft--;
     DriverVolunteer::acceptOrder(order);
 }
@@ -51,6 +54,7 @@ bool LimitedDriverVolunteer::isCollector() const
 
 void LimitedDriverVolunteer::resetVolAfterFinishedOrder()
 {
+    //call to fathers func
     DriverVolunteer::resetVolAfterFinishedOrder();
 }
 

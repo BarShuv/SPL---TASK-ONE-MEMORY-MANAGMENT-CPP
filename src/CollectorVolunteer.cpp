@@ -11,18 +11,16 @@ CollectorVolunteer::CollectorVolunteer(int id, const string &name, int coolDown)
 
 CollectorVolunteer *CollectorVolunteer::clone() const
 {
+    //cloning the CollectorVolunteer
     return new CollectorVolunteer(*this);
 }
 
 void CollectorVolunteer::step()
 {
+    //perform step in simulation
     if (timeLeft > 0)
     {
         decreaseCoolDown();
-        // if (finished) {
-        //     completedOrderId = activeOrderId;
-        //     activeOrderId = NO_ORDER;
-        // }
     }
 }
 
@@ -38,6 +36,7 @@ int CollectorVolunteer::getTimeLeft() const
 
 bool CollectorVolunteer::decreaseCoolDown()
 {
+    //decrese max to zero timeleft 
     if (timeLeft > 0)
     {
         timeLeft--;
@@ -77,9 +76,6 @@ int CollectorVolunteer::getCoolDownFromVol() const
     return coolDown;
 }
 
-// int CollectorVolunteer::getDistanceLeftFromVol() const{
-//     return -1;
-// }
 
 int CollectorVolunteer::getUpdatedDistanceLeft() const
 {
