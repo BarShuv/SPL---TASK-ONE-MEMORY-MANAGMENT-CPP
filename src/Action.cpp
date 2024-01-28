@@ -337,9 +337,9 @@ string RestoreWareHouse::toString() const {
     //return string matches the status
     ActionStatus actionStatus = getStatus();
     if (actionStatus == ActionStatus::COMPLETED) {
-        return "backup COMPLETED";
+        return "restore COMPLETED";
     } else {
-        return getErrorMsg();
+        return "restore ERROR";
     }
 }
 

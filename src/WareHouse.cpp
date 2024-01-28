@@ -403,50 +403,11 @@ int WareHouse::getIdNeworder()
     return orderCounter;
 }
 
-// void WareHouse::handOverOrders()
-// {
-//     for (std::vector<Order *>::size_type i = 0; i < inProcessOrders.size(); i++)
-//     {
-//         for (std::vector<Volunteer *>::size_type j = 0; j < volunteers.size(); j++)
-//         {
-//             // std::cout << count++;
-//             if (volunteers[j]->canTakeOrder(*inProcessOrders[i]) && volunteers[j]->isDriver())
-//             {
-//                 volunteers[j]->acceptOrder(*inProcessOrders[i]);
-//                 inProcessOrders[i]->setDriverId(volunteers[j]->getId());
-//                 pendingOrders[i]->setStatus(OrderStatus::DELIVERING);
-//                 inProcessOrders.push_back(inProcessOrders[i]);
-//                 inProcessOrders.erase(inProcessOrders.begin() + i);
-//                 i--;
-//                 break; // Order handed over, move to the next order
-//             }
-//         }
-//     }
-
-//     for (std::vector<Order *>::size_type i = 0; i < pendingOrders.size(); i++)
-//     {
-//         for (std::vector<Volunteer *>::size_type j = 0; j < volunteers.size(); j++)
-//         {
-//             if (volunteers[j]->canTakeOrder(*pendingOrders[i]) && (volunteers[j]->isCollector()))
-//             {
-
-//                 volunteers[j]->acceptOrder(*pendingOrders[i]);
-//                 // std::cout << volunteers[j]->toString();
-//                 pendingOrders[i]->setCollectorId(volunteers[j]->getId());
-//                 pendingOrders[i]->setStatus(OrderStatus::COLLECTING);
-//                 inProcessOrders.push_back(pendingOrders[i]);
-//                 pendingOrders.erase(pendingOrders.begin() + i);
-//                 i--;
-//                 break; // Order handed over, move to the next order
-//             }
-//         }
-//     }
-// }
 
 // new version
 void WareHouse::handOverOrders()
 {
-
+    /**
     for (std::vector<Order *>::size_type i = 0; i < inProcessOrders.size(); i++)
     {
         if (inProcessOrders[i]->getProcessingTimeLeft() <= 0)
@@ -466,22 +427,31 @@ void WareHouse::handOverOrders()
             }
         }
     }
-
+    **/
     for (std::vector<Order *>::size_type i = 0; i < pendingOrders.size(); i++)
     {
         for (std::vector<Volunteer *>::size_type j = 0; j < volunteers.size(); j++)
         {
-            if (volunteers[j]->canTakeOrder(*pendingOrders[i]) && (volunteers[j]->isCollector()))
+            if ((pendingOrders[i]->getStatus() == OrderStatus::PENDING) && volunteers[j]->canTakeOrder(*pendingOrders[i]) && (volunteers[j]->isCollector()))
             {
-
                 volunteers[j]->acceptOrder(*pendingOrders[i]);
                 pendingOrders[i]->setCollectorId(volunteers[j]->getId());
                 pendingOrders[i]->setProcessingTimeLeft(volunteers[j]->getCoolDownFromVol());
                 pendingOrders[i]->setStatus(OrderStatus::COLLECTING);
-                pendingOrders.push_back(pendingOrders[i]);
+                inProcessOrders.push_back(pendingOrders[i]);
                 pendingOrders.erase(pendingOrders.begin() + i);
                 i--;
                 break; // Order handed over, move to the next order
+            }
+            else if((pendingOrders[i]->getStatus() == OrderStatus::COLLECTING) && volunteers[j]->canTakeOrder(*inProcessOrders[i]) && volunteers[j]->isDriver())
+            {
+                    volunteers[j]->acceptOrder(*pendingOrders[i]);
+                    pendingOrders[i]->setDriverId(volunteers[j]->getId());
+                    pendingOrders[i]->setStatus(OrderStatus::DELIVERING);
+                    inProcessOrders.push_back(pendingOrders[i]);
+                    pendingOrders.erase(pendingOrders.begin() + i);
+                    i--;
+                    break; // Order handed over, move to the next order
             }
         }
     }
@@ -495,9 +465,9 @@ void WareHouse::performSimulationStep()
         volunteers[i]->step();
     }
     // update processing time left here
-    for (std::vector<Order *>::size_type j = 0; j < pendingOrders.size(); j++)
+    for (std::vector<Order *>::size_type j = 0; j < inProcessOrders.size(); j++)
     {
-        Order *order = pendingOrders[j];
+        Order *order = inProcessOrders[j];
         if (order->getCollectorId() > -1)
         {
             int ptl = order->getProcessingTimeLeft();
@@ -506,46 +476,6 @@ void WareHouse::performSimulationStep()
     }
 }
 
-// void WareHouse::checkVolunteers()
-// {
-//     // Step 3: Check if volunteers have finished processing their orders
-//     for (std::vector<Order *>::iterator it = inProcessOrders.begin(); it != inProcessOrders.end();)
-//     {
-//         Order *order = *it;
-//         bool orderCompleted = false;
-
-//         for (auto &volunteer : volunteers)
-//         {
-//             if (volunteer->getActiveOrderId() == order->getId())
-//             {
-//                 // Volunteer is still processing the order
-//                 orderCompleted = volunteer->isBusy() ? false : true;
-//                 // std::cout << "AM I DRIVER??? " << volunteer->isDriver() << std::endl;
-//                 // std::cout << "distance left ______ " << volunteer->getDistanceLeftFromVol() << std::endl;
-//                 // std::cout << "useful info ____" << order->toString() << std::endl;
-//                 if (orderCompleted && volunteer->isDriver() && order->getDriverId() > -1)
-//                 {
-//                     // if (volunteer->getDistanceLeftFromVol() == 0)
-//                     // {
-//                     //     std::cout << "hi I got into the new IF" << std::endl;
-//                     //     order->setStatus(OrderStatus::COMPLETED);
-//                     // }
-//                 }
-//                 break;
-//             }
-//         }
-
-//         if (orderCompleted)
-//         {
-//             completedOrders.push_back(order);
-//             it = inProcessOrders.erase(it);
-//         }
-//         else
-//         {
-//             ++it;
-//         }
-//     }
-// }
 
 // new version
 void WareHouse::checkVolunteers()
@@ -561,7 +491,7 @@ void WareHouse::checkVolunteers()
             for (std::vector<Order *>::size_type j = 0; j < inProcessOrders.size(); j++)
             {
                 Order *order = inProcessOrders[j];
-                //
+                
                 if (order->getDriverId() == vol->getId())
                 {
                     // if true then driver finished with the order
@@ -581,9 +511,10 @@ void WareHouse::checkVolunteers()
             }
 
             // now we weill check for collections
-            for (std::vector<Order *>::size_type j = 0; j < pendingOrders.size(); j++)
+            
+            for (std::vector<Order *>::size_type j = 0; j < inProcessOrders.size(); j++)
             {
-                Order *order = pendingOrders[j];
+                Order *order = inProcessOrders[j];
                 //
                 if (order->getCollectorId() == vol->getId())
                 {
@@ -592,41 +523,19 @@ void WareHouse::checkVolunteers()
                     {
                         // vol handling
                         vol->resetVolAfterFinishedOrder();
-
                         // order handling - check if done correctly
-                        inProcessOrders.push_back(order);
-                        pendingOrders.erase(pendingOrders.begin() + j);
+                        pendingOrders.push_back(order);
+                        inProcessOrders.erase(inProcessOrders.begin() + j);
                         j--;
                     }
                     break;
                 }
             }
+            
         }
     }
 
-    // // Step 3: Check if volunteers have finished processing their orders
-    // // checking only drivers
-    // for (std::vector<Order *>::size_type i = 0; i < inProcessOrders.size(); i++)
-    // {
-    //     Order *order = inProcessOrders[i];
-    //     bool orderCompleted = false;
 
-    //     for (auto &volunteer : volunteers)
-    //     {
-    //         if (volunteer->getActiveOrderId() == order->getId())
-    //         {
-    //             orderCompleted = volunteer->isBusy() ? false : true;
-    //             if (orderCompleted && volunteer->isDriver() && order->getDriverId() > -1)
-    //             {
-    //                 order->setStatus(OrderStatus::COMPLETED);
-    //                 completedOrders.push_back(order);
-    //                 inProcessOrders.erase(inProcessOrders.begin() + i);
-    //                 i--;
-    //             }
-    //             break;
-    //         }
-    //     }
-    // }
 }
 
 // new version
@@ -639,31 +548,15 @@ void WareHouse::deleteFinishedVolunteers()
         if (!volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
         {
             // Volunteer reached maxOrders limit and finished handling the last order
+            Volunteer *temp = volunteers[i];
             volunteers.erase(volunteers.begin() + i);
+            delete temp;
             i--;
         }
     }
 }
 
-// void WareHouse::deleteFinishedVolunteers()
-// {
-//     // Step 4: Delete volunteers that reached maxOrders limit and finished handling their last order
-//     std::vector<Volunteer *>::iterator it = volunteers.begin();
-//     while (it != volunteers.end())
-//     {
-//         Volunteer *volunteer = *it;
-//         if (!volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
-//         {
-//             // Volunteer reached maxOrders limit and finished handling the last order
-//             it = volunteers.erase(it);
-//             delete volunteer; // Free the memory
-//         }
-//         else
-//         {
-//             ++it;
-//         }
-//     }
-// }
+
 
 const vector<Order *> WareHouse::getAllOrders() const
 {

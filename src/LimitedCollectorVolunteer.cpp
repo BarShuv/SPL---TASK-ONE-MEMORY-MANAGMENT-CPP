@@ -23,6 +23,7 @@ using std::vector;
     }
 
     void LimitedCollectorVolunteer::acceptOrder(const Order &order) {
+        ordersLeft--;
         CollectorVolunteer::acceptOrder(order);
     }
 
@@ -42,7 +43,6 @@ using std::vector;
     }
 
     void LimitedCollectorVolunteer::resetVolAfterFinishedOrder(){
-        ordersLeft--;
         CollectorVolunteer::resetVolAfterFinishedOrder();
     }
 

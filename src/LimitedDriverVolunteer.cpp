@@ -36,6 +36,7 @@ bool LimitedDriverVolunteer::canTakeOrder(const Order &order) const
 
 void LimitedDriverVolunteer::acceptOrder(const Order &order)
 {
+    ordersLeft--;
     DriverVolunteer::acceptOrder(order);
 }
 
@@ -50,7 +51,6 @@ bool LimitedDriverVolunteer::isCollector() const
 
 void LimitedDriverVolunteer::resetVolAfterFinishedOrder()
 {
-    ordersLeft--;
     DriverVolunteer::resetVolAfterFinishedOrder();
 }
 
