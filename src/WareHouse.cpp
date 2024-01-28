@@ -63,6 +63,7 @@ WareHouse &WareHouse::operator=(const WareHouse &other)
         inProcessOrders.clear();
         completedOrders.clear();
         completedOrders.clear();
+        customers.clear();
         // Deep copy for vectors
         std::copy(other.actionsLog.begin(), other.actionsLog.end(), std::back_inserter(actionsLog));
         std::copy(other.volunteers.begin(), other.volunteers.end(), std::back_inserter(volunteers));
