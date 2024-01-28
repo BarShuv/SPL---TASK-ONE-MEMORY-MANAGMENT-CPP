@@ -60,6 +60,8 @@ class CollectorVolunteer: public Volunteer {
         virtual int getUpdatedDistanceLeft() const override;
         virtual void resetVolAfterFinishedOrder() override;
         string toString() const override;
+        virtual ~CollectorVolunteer()=default;
+
     
     private:
         const int coolDown; // The time it takes the volunteer to process an order
@@ -109,6 +111,7 @@ class DriverVolunteer: public Volunteer {
         virtual void resetVolAfterFinishedOrder() override;
         // int getDistanceLeftFromVol() const override;
         string toString() const override;
+        virtual ~DriverVolunteer()=default;
 
     private:
         const int maxDistance; // The maximum distance of ANY order the volunteer can take

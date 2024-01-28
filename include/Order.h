@@ -31,7 +31,8 @@ class Order {
         const string toString() const;
         int getDistance() const;
         int getProcessingTimeLeft() const;
-        
+        Order *clone() const;       
+
     private:
         const int id;
         const int customerId;

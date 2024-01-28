@@ -95,3 +95,7 @@ const string Order::toString() const {
     return ss.str();
 }
 
+Order* Order:: clone() const{
+    //cloning the order
+    return new Order(*this);
+}       

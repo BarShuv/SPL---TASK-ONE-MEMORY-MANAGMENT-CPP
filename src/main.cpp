@@ -1,6 +1,5 @@
 #include "../include/WareHouse.h"
 #include <iostream>
-
 using namespace std;
 
 WareHouse* backup = nullptr;
@@ -17,5 +16,7 @@ int main(int argc, char** argv){
     	delete backup;
     	backup = nullptr;
     }
+    std::cout << "got to end" << std::endl;
+
     return 0;
 }

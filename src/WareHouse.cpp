@@ -23,54 +23,121 @@ WareHouse::WareHouse(const string &configFilePath) : isOpen(false),
 // Copy constructor
 WareHouse::WareHouse(const WareHouse &other)
     : isOpen(other.isOpen),
-      actionsLog(other.actionsLog.size()),
-      volunteers(other.volunteers.size()),
-      pendingOrders(other.pendingOrders.size()),
-      inProcessOrders(other.inProcessOrders.size()),
-      completedOrders(other.completedOrders.size()),
-      customers(other.customers.size()),
-      customerCounter(other.customerCounter),
-      volunteerCounter(other.volunteerCounter),
+      actionsLog(),volunteers(),pendingOrders(),inProcessOrders(),completedOrders(),customers(),customerCounter(other.customerCounter),
+        volunteerCounter(other.volunteerCounter),
       orderCounter(other.orderCounter),
       defualtCustomer(new CivilianCustomer(-1, "", -1, -1)),
       defaultVolunteer(new DriverVolunteer(-1, "", -1, -1)),
       defaultOrder(new Order(-1, -1, -1))
-
 {
     // Deep copy for vectors
-    std::copy(other.actionsLog.begin(), other.actionsLog.end(), actionsLog.begin());
-    std::copy(other.volunteers.begin(), other.volunteers.end(), volunteers.begin());
-    std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), pendingOrders.begin());
-    std::copy(other.inProcessOrders.begin(), other.inProcessOrders.end(), inProcessOrders.begin());
-    std::copy(other.completedOrders.begin(), other.completedOrders.end(), completedOrders.begin());
-    std::copy(other.customers.begin(), other.customers.end(), customers.begin());
+    for(BaseAction* a: other.actionsLog)
+    {
+        actionsLog.push_back(a->clone());
+    }
+    for(Volunteer* v: other.volunteers)
+    {
+        volunteers.push_back(v->clone());
+    }
+    for(Order* o: other.pendingOrders)
+    {
+        pendingOrders.push_back(o->clone());
+    }
+    for(Order* o: other.inProcessOrders)
+    {
+        inProcessOrders.push_back(o->clone());
+    }
+    for(Order* o: other.completedOrders)
+    {
+        completedOrders.push_back(o->clone());
+    }
+
+    for(Customer* c: other.customers)
+    {
+        customers.push_back(c->clone());
+    }
+
 }
 
 WareHouse &WareHouse::operator=(const WareHouse &other)
 {
     if (this != &other) // Check for self-assignment
     {
-        // Copy data from 'other' to 'this'
-        isOpen = other.isOpen;
+                   // delete actionsLog
+    for (BaseAction *act : actionsLog)
+    {
+        delete act;
+    }
+    // delete volunteers;
+    for (Volunteer *vol : volunteers)
+    {   
+        //std::cout << vol->getName() <<std::endl;
+        delete vol;
+    }
+    
+    // delete pendingOrders;
+    for (Order *ord : pendingOrders)
+    {
+        delete ord;
+    }
+    // delete inProcessOrders;
+    for (Order *ord : inProcessOrders)
+    {
+        delete ord;
+    }
+    // delete completedOrders;
+    for (Order *ord : completedOrders)
+    {
+        delete ord;
+    }
+    // delete customers;
+    for (Customer *cus : customers)
+    {
+        delete cus;
+    }
 
-        customerCounter = other.customerCounter;
-        volunteerCounter = other.volunteerCounter;
-        orderCounter = other.orderCounter;
-        // clear all this vectors before inserting
-        actionsLog.clear();
-        volunteers.clear();
-        pendingOrders.clear();
-        inProcessOrders.clear();
-        completedOrders.clear();
-        completedOrders.clear();
-        customers.clear();
+            // Copy data from 'other' to 'this'
+            isOpen = other.isOpen;
+
+            customerCounter = other.customerCounter;
+            volunteerCounter = other.volunteerCounter;
+            orderCounter = other.orderCounter;
+            // clear all this vectors before inserting
+            actionsLog.clear();
+            volunteers.clear();
+            pendingOrders.clear();
+            inProcessOrders.clear();
+            completedOrders.clear();
+            completedOrders.clear();
+            customers.clear();
+            // Deep copy for vectors
         // Deep copy for vectors
-        std::copy(other.actionsLog.begin(), other.actionsLog.end(), std::back_inserter(actionsLog));
-        std::copy(other.volunteers.begin(), other.volunteers.end(), std::back_inserter(volunteers));
-        std::copy(other.pendingOrders.begin(), other.pendingOrders.end(), std::back_inserter(pendingOrders));
-        std::copy(other.inProcessOrders.begin(), other.inProcessOrders.end(), std::back_inserter(inProcessOrders));
-        std::copy(other.completedOrders.begin(), other.completedOrders.end(), std::back_inserter(completedOrders));
-        std::copy(other.customers.begin(), other.customers.end(), std::back_inserter(customers));
+        for(BaseAction* a: other.actionsLog)
+        {
+            actionsLog.push_back(a->clone());
+        }
+        for(Volunteer* v: other.volunteers)
+        {
+            volunteers.push_back(v->clone());
+        }
+        for(Order* o: other.pendingOrders)
+        {
+            pendingOrders.push_back(o->clone());
+        }
+        for(Order* o: other.inProcessOrders)
+        {
+            inProcessOrders.push_back(o->clone());
+        }
+        for(Order* o: other.completedOrders)
+        {
+            completedOrders.push_back(o->clone());
+        }
+
+        for(Customer* c: other.customers)
+        {
+            customers.push_back(c->clone());
+        }
+
     }
     return *this;
 }
@@ -105,6 +172,10 @@ WareHouse &WareHouse::operator=(WareHouse &&other) noexcept
 {
     if (this != &other)
     {
+ 
+        
+        
+        
         // take others fields
         isOpen = other.isOpen;
         customerCounter = other.customerCounter;
@@ -114,12 +185,7 @@ WareHouse &WareHouse::operator=(WareHouse &&other) noexcept
         defaultVolunteer = other.defaultVolunteer;
         defaultOrder = other.defaultOrder;
         // clear this vectors before inserting
-        actionsLog.clear();
-        volunteers.clear();
-        pendingOrders.clear();
-        inProcessOrders.clear();
-        completedOrders.clear();
-        completedOrders.clear();
+
         // copy values
         std::copy(other.actionsLog.begin(), other.actionsLog.end(), actionsLog.begin());
         std::copy(other.volunteers.begin(), other.volunteers.end(), volunteers.begin());
@@ -140,7 +206,7 @@ WareHouse &WareHouse::operator=(WareHouse &&other) noexcept
 
 WareHouse::~WareHouse()
 {
-    // delete actionsLog;
+    // delete actionsLog
     for (BaseAction *act : actionsLog)
     {
         delete act;
@@ -148,8 +214,10 @@ WareHouse::~WareHouse()
     // delete volunteers;
     for (Volunteer *vol : volunteers)
     {   
+        //std::cout << vol->getName() <<std::endl;
         delete vol;
     }
+    
     // delete pendingOrders;
     for (Order *ord : pendingOrders)
     {
@@ -173,6 +241,7 @@ WareHouse::~WareHouse()
     delete defaultOrder;
     delete defaultVolunteer;
     delete defualtCustomer;
+    
 }
 
 void WareHouse::start()
@@ -444,7 +513,7 @@ void WareHouse::handOverOrders()
                 i--;
                 break; // Order handed over, move to the next order
             }
-            else if((pendingOrders[i]->getStatus() == OrderStatus::COLLECTING) && volunteers[j]->canTakeOrder(*inProcessOrders[i]) && volunteers[j]->isDriver())
+            else if((pendingOrders[i]->getStatus() == OrderStatus::COLLECTING) && volunteers[j]->canTakeOrder(*pendingOrders[i]) && volunteers[j]->isDriver())
             {
                     volunteers[j]->acceptOrder(*pendingOrders[i]);
                     pendingOrders[i]->setDriverId(volunteers[j]->getId());
@@ -548,18 +617,13 @@ void WareHouse::deleteFinishedVolunteers()
         Volunteer *volunteer = volunteers[i];
         if (!volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
         {
-            // Volunteer reached maxOrders limit and finished handling the last order
+            //Volunteer reached maxOrders limit and finished handling the last order
             Volunteer *temp = volunteers[i];
             volunteers.erase(volunteers.begin() + i);
             delete temp;
             i--;
         }
     }
-    for (std::vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++)
-    {
-        std::cout << "vol    " << volunteers[i]->getName() << std::endl;
-    }
-
 }
 
 

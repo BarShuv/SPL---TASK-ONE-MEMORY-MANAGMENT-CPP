@@ -294,6 +294,11 @@ BackupWareHouse::BackupWareHouse()
 
 void BackupWareHouse:: act(WareHouse &wareHouse) {
     //use operator = assignment to assign the current warehouse
+    if(backup != nullptr)
+    {
+        delete backup;
+        backup = nullptr;
+    }
     backup = new WareHouse(wareHouse);
     wareHouse.addAction(this);
     complete();
