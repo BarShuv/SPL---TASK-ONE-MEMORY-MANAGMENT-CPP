@@ -453,12 +453,11 @@ void WareHouse::handOverOrders()
         {
             for (std::vector<Volunteer *>::size_type j = 0; j < volunteers.size(); j++)
             {
-                // std::cout << count++;
                 if (volunteers[j]->canTakeOrder(*inProcessOrders[i]) && volunteers[j]->isDriver())
                 {
                     volunteers[j]->acceptOrder(*inProcessOrders[i]);
                     inProcessOrders[i]->setDriverId(volunteers[j]->getId());
-                    pendingOrders[i]->setStatus(OrderStatus::DELIVERING);
+                    inProcessOrders[i]->setStatus(OrderStatus::DELIVERING);
                     inProcessOrders.push_back(inProcessOrders[i]);
                     inProcessOrders.erase(inProcessOrders.begin() + i);
                     i--;
@@ -477,7 +476,7 @@ void WareHouse::handOverOrders()
 
                 volunteers[j]->acceptOrder(*pendingOrders[i]);
                 pendingOrders[i]->setCollectorId(volunteers[j]->getId());
-                pendingOrders[i]->setProcessingTimeLeft(volunteers[j]->getCoolDown());
+                pendingOrders[i]->setProcessingTimeLeft(volunteers[j]->getCoolDownFromVol());
                 pendingOrders[i]->setStatus(OrderStatus::COLLECTING);
                 pendingOrders.push_back(pendingOrders[i]);
                 pendingOrders.erase(pendingOrders.begin() + i);
@@ -494,6 +493,16 @@ void WareHouse::performSimulationStep()
     for (std::vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++)
     {
         volunteers[i]->step();
+    }
+    // update processing time left here
+    for (std::vector<Order *>::size_type j = 0; j < pendingOrders.size(); j++)
+    {
+        Order *order = pendingOrders[j];
+        if (order->getCollectorId() > -1)
+        {
+            int ptl = order->getProcessingTimeLeft();
+            order->setProcessingTimeLeft(ptl - 1);
+        }
     }
 }
 
@@ -538,40 +547,62 @@ void WareHouse::performSimulationStep()
 //     }
 // }
 
-
-
 // new version
 void WareHouse::checkVolunteers()
 {
-    for (std::vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++){
-        Volunteer* vol = volunteers[i];
+    for (std::vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++)
+    {
+        Volunteer *vol = volunteers[i];
         int activeOrderId = vol->getActiveOrderId();
         // we check only vol that have active order otherwise we have nothing to update
-        if(activeOrderId != -1){
+        if (activeOrderId != -1)
+        {
             // first we check the drivers
-            for (std::vector<Order *>::size_type j = 0; j < inProcessOrders.size(); j++){
-                Order* order = inProcessOrders[j];
+            for (std::vector<Order *>::size_type j = 0; j < inProcessOrders.size(); j++)
+            {
+                Order *order = inProcessOrders[j];
                 //
-                if(order->getDriverId() == vol->getId()){
+                if (order->getDriverId() == vol->getId())
+                {
                     // if true then driver finished with the order
-                    if(vol->getUpdatedDistanceLeft() == 0){
-                        //vol handling
+                    if (vol->getUpdatedDistanceLeft() == 0)
+                    {
+                        // vol handling
                         vol->resetVolAfterFinishedOrder();
 
-                        //order handling - check if done correctly
+                        // order handling - check if done correctly
                         order->setStatus(OrderStatus::COMPLETED);
                         completedOrders.push_back(order);
-                        inProcessOrders.erase(inProcessOrders.begin() + i);
-                        i--;
+                        inProcessOrders.erase(inProcessOrders.begin() + j);
+                        j--;
+                    }
+                    break;
+                }
+            }
+
+            // now we weill check for collections
+            for (std::vector<Order *>::size_type j = 0; j < pendingOrders.size(); j++)
+            {
+                Order *order = pendingOrders[j];
+                //
+                if (order->getCollectorId() == vol->getId())
+                {
+                    // if true then driver finished with the order
+                    if (vol->getUpdatedDistanceLeft() == 0)
+                    {
+                        // vol handling
+                        vol->resetVolAfterFinishedOrder();
+
+                        // order handling - check if done correctly
+                        inProcessOrders.push_back(order);
+                        pendingOrders.erase(pendingOrders.begin() + j);
+                        j--;
                     }
                     break;
                 }
             }
         }
     }
-
-
-
 
     // // Step 3: Check if volunteers have finished processing their orders
     // // checking only drivers
@@ -598,25 +629,41 @@ void WareHouse::checkVolunteers()
     // }
 }
 
+// new version
 void WareHouse::deleteFinishedVolunteers()
 {
     // Step 4: Delete volunteers that reached maxOrders limit and finished handling their last order
-    std::vector<Volunteer *>::iterator it = volunteers.begin();
-    while (it != volunteers.end())
+    for (std::vector<Volunteer *>::size_type i = 0; i < volunteers.size(); i++)
     {
-        Volunteer *volunteer = *it;
+        Volunteer *volunteer = volunteers[i];
         if (!volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
         {
             // Volunteer reached maxOrders limit and finished handling the last order
-            it = volunteers.erase(it);
-            delete volunteer; // Free the memory
-        }
-        else
-        {
-            ++it;
+            volunteers.erase(volunteers.begin() + i);
+            i--;
         }
     }
 }
+
+// void WareHouse::deleteFinishedVolunteers()
+// {
+//     // Step 4: Delete volunteers that reached maxOrders limit and finished handling their last order
+//     std::vector<Volunteer *>::iterator it = volunteers.begin();
+//     while (it != volunteers.end())
+//     {
+//         Volunteer *volunteer = *it;
+//         if (!volunteer->hasOrdersLeft() && volunteer->getActiveOrderId() == NO_ORDER)
+//         {
+//             // Volunteer reached maxOrders limit and finished handling the last order
+//             it = volunteers.erase(it);
+//             delete volunteer; // Free the memory
+//         }
+//         else
+//         {
+//             ++it;
+//         }
+//     }
+// }
 
 const vector<Order *> WareHouse::getAllOrders() const
 {

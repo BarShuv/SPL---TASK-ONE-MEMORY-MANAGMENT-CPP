@@ -46,6 +46,9 @@ OrderStatus Order::getStatus() const {
     return distance;
  }
 
+ void Order::setProcessingTimeLeft(int ptl){
+    processingTimeLeft = ptl;
+ }
 
 string Order::getStatusStr() const
 {

@@ -18,7 +18,7 @@ void CollectorVolunteer::step()
 {
     if (timeLeft > 0)
     {
-        bool finished = decreaseCoolDown();
+        decreaseCoolDown();
         // if (finished) {
         //     completedOrderId = activeOrderId;
         //     activeOrderId = NO_ORDER;
@@ -72,7 +72,7 @@ void CollectorVolunteer::acceptOrder(const Order &order)
     timeLeft = coolDown;
 }
 
-int CollectorVolunteer::getCoolDown() const
+int CollectorVolunteer::getCoolDownFromVol() const
 {
     return coolDown;
 }
@@ -83,7 +83,7 @@ int CollectorVolunteer::getCoolDown() const
 
 int CollectorVolunteer::getUpdatedDistanceLeft() const
 {
-    return -1;
+    return timeLeft;
 }
 
 void CollectorVolunteer::resetVolAfterFinishedOrder()

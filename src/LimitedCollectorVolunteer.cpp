@@ -24,7 +24,6 @@ using std::vector;
 
     void LimitedCollectorVolunteer::acceptOrder(const Order &order) {
         CollectorVolunteer::acceptOrder(order);
-        ordersLeft--;
     }
 
     int LimitedCollectorVolunteer::getMaxOrders() const {
@@ -40,6 +39,11 @@ using std::vector;
     }
     bool LimitedCollectorVolunteer::isCollector() const {
         return true;
+    }
+
+    void LimitedCollectorVolunteer::resetVolAfterFinishedOrder(){
+        ordersLeft--;
+        CollectorVolunteer::resetVolAfterFinishedOrder();
     }
 
     string LimitedCollectorVolunteer::toString() const {

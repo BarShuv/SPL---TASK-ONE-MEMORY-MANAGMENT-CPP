@@ -39,7 +39,7 @@ bool DriverVolunteer::decreaseDistanceLeft()
     return false;
 }
 
-int DriverVolunteer::getCoolDown() const
+int DriverVolunteer::getCoolDownFromVol() const
 {
     // only collector has cooldown but I need to call this function on generic volunteer, will check if its bigger then -1.;
     return -1;
@@ -69,7 +69,7 @@ void DriverVolunteer::step()
 {
     if (distanceLeft > 0)
     {
-        bool hasDistLeft = decreaseDistanceLeft();
+        decreaseDistanceLeft();
         if (distanceLeft < 0)
         {
             distanceLeft = 0;

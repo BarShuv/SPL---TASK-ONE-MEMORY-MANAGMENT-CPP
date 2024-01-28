@@ -23,7 +23,7 @@ class Volunteer {
         virtual Volunteer* clone() const = 0; //Return a copy of the volunteer
         virtual bool isDriver() const = 0;
         virtual bool isCollector() const = 0;
-        virtual int getCoolDown() const = 0;
+        virtual int getCoolDownFromVol() const = 0;
         // virtual int getDistanceLeftFromVol() const = 0;
         virtual int getUpdatedDistanceLeft() const = 0;
         virtual void resetVolAfterFinishedOrder() = 0;
@@ -55,7 +55,7 @@ class CollectorVolunteer: public Volunteer {
         void acceptOrder(const Order &order) override;
         virtual bool isDriver() const override;
         virtual bool isCollector() const override;
-        virtual int getCoolDown() const override;
+        virtual int getCoolDownFromVol() const override;
         // int getDistanceLeftFromVol() const override;
         virtual int getUpdatedDistanceLeft() const override;
         virtual void resetVolAfterFinishedOrder() override;
@@ -80,6 +80,8 @@ class LimitedCollectorVolunteer: public CollectorVolunteer {
         string toString() const override;
         virtual bool isDriver() const override;
         virtual bool isCollector() const override;
+        virtual void resetVolAfterFinishedOrder() override;
+
     
     private:
         const int maxOrders; // The number of orders the volunteer can process in the whole simulation
@@ -102,7 +104,7 @@ class DriverVolunteer: public Volunteer {
         void step() override; // Decrease distanceLeft by distancePerStep
         virtual bool isDriver() const override;
         virtual bool isCollector() const override;
-        virtual int getCoolDown() const override;
+        virtual int getCoolDownFromVol() const override;
         virtual int getUpdatedDistanceLeft() const override;
         virtual void resetVolAfterFinishedOrder() override;
         // int getDistanceLeftFromVol() const override;
@@ -126,6 +128,7 @@ class LimitedDriverVolunteer: public DriverVolunteer {
         void acceptOrder(const Order &order) override; // Assign distanceLeft to order's distance and decrease ordersLeft
         virtual bool isDriver() const override;
         virtual bool isCollector() const override;
+        virtual void resetVolAfterFinishedOrder() override;
         string toString() const override;
 
     private:
